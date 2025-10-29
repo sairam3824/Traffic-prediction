@@ -1,9 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   serverExternalPackages: ["tensorflow", "numpy"],
-  experimental: {
-    turbo: false,
-  },
   headers: async () => {
     return [
       {
