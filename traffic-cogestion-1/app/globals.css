@@ -134,124 +134,244 @@ body {
 
 /* Traffic congestion specific styles */
 .traffic-low {
-  @apply bg-green-100 text-green-800 border-green-200;
+  background-color: #dcfce7;
+  color: #166534;
+  border-color: #bbf7d0;
 }
 
 .traffic-medium {
-  @apply bg-yellow-100 text-yellow-800 border-yellow-200;
+  background-color: #fef3c7;
+  color: #92400e;
+  border-color: #fde68a;
 }
 
 .traffic-high {
-  @apply bg-red-100 text-red-800 border-red-200;
+  background-color: #fee2e2;
+  color: #991b1b;
+  border-color: #fecaca;
 }
 
 .traffic-severe {
-  @apply bg-red-200 text-red-900 border-red-300;
+  background-color: #fecaca;
+  color: #7f1d1d;
+  border-color: #fca5a5;
 }
 
 /* Map container styles */
 .map-container {
-  @apply relative w-full h-full rounded-lg overflow-hidden shadow-lg;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 .map-overlay {
-  @apply absolute top-4 left-4 z-10 bg-white/90 backdrop-blur-sm rounded-lg p-4 shadow-lg;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 10;
+  background-color: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(4px);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 /* Chart styles */
 .chart-container {
-  @apply bg-card rounded-lg p-6 shadow-sm border;
+  background-color: hsl(var(--card));
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  border: 1px solid hsl(var(--border));
 }
 
 .chart-title {
-  @apply text-lg font-semibold text-foreground mb-4;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+  margin-bottom: 1rem;
 }
 
 /* Button variants */
 .btn-primary {
-  @apply bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md font-medium transition-colors;
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.btn-primary:hover {
+  background-color: hsl(var(--primary) / 0.9);
 }
 
 .btn-secondary {
-  @apply bg-secondary text-secondary-foreground hover:bg-secondary/80 px-4 py-2 rounded-md font-medium transition-colors;
+  background-color: hsl(var(--secondary));
+  color: hsl(var(--secondary-foreground));
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+  background-color: hsl(var(--secondary) / 0.8);
 }
 
 .btn-destructive {
-  @apply bg-destructive text-destructive-foreground hover:bg-destructive/90 px-4 py-2 rounded-md font-medium transition-colors;
+  background-color: hsl(var(--destructive));
+  color: hsl(var(--destructive-foreground));
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.btn-destructive:hover {
+  background-color: hsl(var(--destructive) / 0.9);
 }
 
 /* Card styles */
 .card {
-  @apply bg-card text-card-foreground rounded-lg border shadow-sm;
+  background-color: hsl(var(--card));
+  color: hsl(var(--card-foreground));
+  border-radius: 0.5rem;
+  border: 1px solid hsl(var(--border));
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
 }
 
 .card-header {
-  @apply flex flex-col space-y-1.5 p-6;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  padding: 1.5rem;
 }
 
 .card-title {
-  @apply text-2xl font-semibold leading-none tracking-tight;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.025em;
 }
 
 .card-description {
-  @apply text-sm text-muted-foreground;
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
 }
 
 .card-content {
-  @apply p-6 pt-0;
+  padding: 1.5rem;
+  padding-top: 0;
 }
 
 .card-footer {
-  @apply flex items-center p-6 pt-0;
+  display: flex;
+  align-items: center;
+  padding: 1.5rem;
+  padding-top: 0;
 }
 
 /* Input styles */
 .input {
-  @apply flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+  display: flex;
+  height: 2.5rem;
+  width: 100%;
+  border-radius: 0.375rem;
+  border: 1px solid hsl(var(--input));
+  background-color: hsl(var(--background));
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  transition: all 0.2s;
+}
+
+.input:focus {
+  outline: none;
+  ring: 2px solid hsl(var(--ring));
+  ring-offset: 2px;
+}
+
+.input:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 
 /* Badge styles */
 .badge {
-  @apply inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  border: 1px solid;
+  padding: 0.125rem 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  transition: all 0.2s;
 }
 
 .badge-default {
-  @apply border-transparent bg-primary text-primary-foreground hover:bg-primary/80;
+  border-color: transparent;
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
 }
 
 .badge-secondary {
-  @apply border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80;
+  border-color: transparent;
+  background-color: hsl(var(--secondary));
+  color: hsl(var(--secondary-foreground));
 }
 
 .badge-destructive {
-  @apply border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80;
+  border-color: transparent;
+  background-color: hsl(var(--destructive));
+  color: hsl(var(--destructive-foreground));
 }
 
 .badge-outline {
-  @apply text-foreground;
+  color: hsl(var(--foreground));
 }
 
 /* Alert styles */
 .alert {
-  @apply relative w-full rounded-lg border p-4;
+  position: relative;
+  width: 100%;
+  border-radius: 0.5rem;
+  border: 1px solid hsl(var(--border));
+  padding: 1rem;
 }
 
 .alert-destructive {
-  @apply border-destructive/50 text-destructive dark:border-destructive;
+  border-color: hsl(var(--destructive) / 0.5);
+  color: hsl(var(--destructive));
 }
 
 /* Progress bar styles */
 .progress {
-  @apply relative h-4 w-full overflow-hidden rounded-full bg-secondary;
+  position: relative;
+  height: 1rem;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 9999px;
+  background-color: hsl(var(--secondary));
 }
 
 .progress-indicator {
-  @apply h-full w-full flex-1 bg-primary transition-all;
+  height: 100%;
+  width: 100%;
+  flex: 1;
+  background-color: hsl(var(--primary));
+  transition: all 0.3s;
 }
 
 /* Loading spinner */
 .loading-spinner {
-  @apply animate-spin rounded-full h-8 w-8 border-b-2 border-primary;
+  animation: spin 1s linear infinite;
+  border-radius: 9999px;
+  height: 2rem;
+  width: 2rem;
+  border-bottom: 2px solid hsl(var(--primary));
 }
 
 /* Gradient backgrounds */
@@ -268,45 +388,55 @@ body {
 
 /* Hover effects */
 .hover-lift {
-  @apply transition-transform duration-200 hover:scale-105;
+  transition: transform 0.2s;
+}
+
+.hover-lift:hover {
+  transform: scale(1.05);
 }
 
 .hover-glow {
-  @apply transition-shadow duration-200 hover:shadow-lg hover:shadow-primary/25;
+  transition: box-shadow 0.2s;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 10px 15px -3px hsl(var(--primary) / 0.25);
 }
 
 /* Glass morphism effect */
 .glass {
-  @apply bg-white/10 backdrop-blur-md border border-white/20;
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 /* Status indicators */
 .status-online {
-  @apply bg-green-500;
+  background-color: #10b981;
 }
 
 .status-offline {
-  @apply bg-red-500;
+  background-color: #ef4444;
 }
 
 .status-warning {
-  @apply bg-yellow-500;
+  background-color: #f59e0b;
 }
 
 /* Responsive utilities */
 @media (max-width: 768px) {
   .mobile-hidden {
-    @apply hidden;
+    display: none;
   }
   
   .mobile-full {
-    @apply w-full;
+    width: 100%;
   }
 }
 
 /* Print styles */
 @media print {
   .no-print {
-    @apply hidden;
+    display: none;
   }
 }
