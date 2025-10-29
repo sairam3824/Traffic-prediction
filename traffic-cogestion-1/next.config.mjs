@@ -1,10 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactCompiler: true,
-  cacheComponents: true,
-  experimental: {
-    serverComponentsExternalPackages: ["tensorflow", "numpy"],
-  },
+  serverExternalPackages: ["tensorflow", "numpy"],
   headers: async () => {
     return [
       {
@@ -17,9 +13,6 @@ const nextConfig = {
         ],
       },
     ]
-  },
-  eslint: {
-    ignoreDuringBuilds: true,
   },
   typescript: {
     ignoreBuildErrors: true,

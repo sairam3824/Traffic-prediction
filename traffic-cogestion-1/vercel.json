@@ -1,19 +1,12 @@
 {
   "framework": "nextjs",
-  "buildCommand": "npm run build",
+  "buildCommand": "npm run vercel-build",
   "devCommand": "npm run dev",
-  "installCommand": "npm install",
+  "installCommand": "npm install --legacy-peer-deps",
   "outputDirectory": ".next",
   "functions": {
     "app/api/**/*.ts": {
       "maxDuration": 30
     }
-  },
-  "env": {
-    "GOOGLE_MAPS_API_KEY": "@google_maps_api_key",
-    "NEXT_PUBLIC_SUPABASE_URL": "@next_public_supabase_url",
-    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "@next_public_supabase_anon_key",
-    "FLASK_API_URL": "@flask_api_url",
-    "CRON_SECRET": "@cron_secret"
   }
 }
