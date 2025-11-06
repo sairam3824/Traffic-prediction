@@ -231,7 +231,7 @@ export default function TrafficHistoryChart() {
       <CardHeader>
         <CardTitle className="text-foreground flex items-center gap-2">
           <TrendingUp className="w-5 h-5" />
-          Traffic History (Last 12 Hours)
+          Traffic History (Last 10 Hours + Next 2 Hours)
         </CardTitle>
         <CardDescription>Historical patterns and AI-powered predictions</CardDescription>
         {lastUpdate && (

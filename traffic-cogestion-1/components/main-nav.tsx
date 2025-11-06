@@ -43,7 +43,7 @@ export default function MainNav() {
 
   return (
     <div className="flex gap-4">
-      <a href="/route-planner" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
+      <a href="/route-planner" className="text-foreground font-bold hover:text-primary transition-colors">
         Route Planner
       </a>
       {isAdmin && (

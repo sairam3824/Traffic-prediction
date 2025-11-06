@@ -1,14 +1,18 @@
-# Traffic Prediction Application - Quick Start Commands
+# Traffic Prediction Application - Integrated Multi-Model System
 
-## Method 1: Two Terminals (Recommended for development)
+## 🚀 QUICK START (Two Terminals)
 
-### Terminal 1 - Flask Backend:
+conda activate traffic-prediction
+
+### Terminal 1 - Enhanced Flask Backend (Multi-Model Support):
 ```bash
-# If you're in the main project directory:
-cd UCS_Model-main && conda run -n traffic-prediction python traffic_prediction_api.py
-
-# If you're already in UCS_Model-main directory:
-conda run -n traffic-prediction python traffic_prediction_api.py
+cd UCS_Model-main
+python traffic_prediction_api_enhanced.py
+```
+**OR** use the original single-model API:
+```bash
+cd UCS_Model-main
+python traffic_prediction_api.py
 ```
 
 ### Terminal 2 - Next.js Frontend:
@@ -16,24 +20,125 @@ conda run -n traffic-prediction python traffic_prediction_api.py
 npm run dev
 ```
 
-## Method 2: Single Command (Background processes)
+## 🌐 Access URLs:
+- **Main App**: http://localhost:3000
+- **Flask API**: http://localhost:5001
+- **API Health**: http://localhost:5001/api/health
+- **Model Info**: http://localhost:5001/api/model_info
+
+## 📊 AVAILABLE MODELS:
+1. **LSTM Model** - Sequential time series prediction
+2. **CNN-LSTM Model** - Spatial-temporal feature extraction
+3. **Best Model** - Highest performing model
+4. **Ensemble** - Weighted combination of all models (recommended)
+
+## 🧪 TEST API:
 ```bash
-./manage_application.sh start
+# Test single prediction with ensemble model
+curl -X POST http://localhost:5001/api/predict \
+  -H "Content-Type: application/json" \
+  -d '{
+    "latitude": 16.5062,
+    "longitude": 80.6480,
+    "timestamp": "2024-11-05T14:30:00",
+    "model": "ensemble"
+  }'
+
+# Test with specific model (lstm, cnn_lstm, best, or ensemble)
+curl -X POST http://localhost:5001/api/predict \
+  -H "Content-Type: application/json" \
+  -d '{
+    "latitude": 16.5062,
+    "longitude": 80.6480,
+    "timestamp": "2024-11-05T14:30:00",
+    "model": "lstm"
+  }'
+
+# Check available models
+curl http://localhost:5001/api/model_info
 ```
 
-## Access URLs:
-- Main App: http://localhost:3000
-- Flask API: http://localhost:5001
+## 🔧 MODEL TRAINING:
 
-## Management Commands:
-- Check status: `./manage_application.sh status`
-- Stop services: `./manage_application.sh stop`
-- Restart: `./manage_application.sh restart`
-
-
-
-terminal 1
+### Train LSTM Model:
+```bash
 cd UCS_Model-main
-conda run -n traffic-prediction python traffic_prediction_api.py    
-terminal 2
-npm run dev
+python lstm_model.py
+```
+
+### Train CNN-LSTM Model:
+```bash
+cd UCS_Model-main
+python cnn_lstm_model.py
+```
+
+### Compare All Models:
+```bash
+cd UCS_Model-main
+python combine_models.py
+```
+
+## 📁 PROJECT STRUCTURE:
+```
+traffic-cogestion-1/
+├── UCS_Model-main/           # Backend models & API
+│   ├── models/               # Trained model files
+│   │   ├── lstm_model.h5
+│   │   ├── cnn_lstm_model.h5
+│   │   └── best_model.h5
+│   ├── traffic_prediction_api_enhanced.py  # Multi-model API
+│   ├── lstm_model.py         # LSTM training
+│   ├── cnn_lstm_model.py     # CNN-LSTM training
+│   └── combine_models.py     # Model comparison
+├── app/                      # Next.js frontend
+├── components/               # React components
+└── lib/                      # Utilities
+
+traffic/                      # Original training folder (archived)
+├── lstm_model.py
+├── cnn_lstm_model.py
+└── README.md
+```
+
+## 🛠️ TROUBLESHOOTING:
+
+### Port Already in Use:
+```bash
+# Kill process on port 5001
+lsof -ti:5001 | xargs kill -9
+
+# Kill process on port 3000
+lsof -ti:3000 | xargs kill -9
+```
+
+### Model Not Found:
+- Ensure you're in the `UCS_Model-main` directory
+- Check that model files exist in `models/` folder
+- Run training scripts if models are missing
+
+### Dependencies Missing:
+```bash
+# Backend dependencies
+pip install tensorflow numpy pandas scikit-learn matplotlib flask
+
+# Frontend dependencies
+npm install
+```
+
+## 📚 DOCUMENTATION:
+- **Integrated System**: UCS_Model-main/README_INTEGRATED.md
+- **Original Models**: traffic/README.md
+- **Deployment Guide**: UCS_Model-main/deployment_guide.md
+
+## 🎯 FEATURES:
+✅ Multiple deep learning models (LSTM, CNN-LSTM)
+✅ Ensemble predictions for better accuracy
+✅ Real-time traffic prediction API
+✅ Route-based traffic analysis
+✅ Interactive web interface
+✅ Model performance comparison tools
+✅ Publication-quality visualizations
+
+---
+**Version**: 2.0 (Integrated Multi-Model System)
+**Last Updated**: November 2024

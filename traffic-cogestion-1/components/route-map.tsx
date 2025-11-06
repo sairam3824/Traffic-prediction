@@ -1120,7 +1120,7 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
             )}
             {trafficSegments.length > 0 && !isLoadingTraffic && (
               <div className="text-xs text-muted-foreground">
-                ✅ AI-powered traffic analysis ({trafficSegments.length} segments)
+                ✅ {trafficSegments.length} segments
               </div>
             )}
             {/* Traffic Alert */}
