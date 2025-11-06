@@ -8,6 +8,8 @@ import AlertsPanel from "@/components/alerts-panel"
 import BackendStatus from "@/components/backend-status"
 import LiveLocationPredictions from "@/components/live-location-predictions"
 import TrafficHistoryChart from "@/components/traffic-history-chart"
+import WeeklyTrafficHeatmap from "@/components/weekly-traffic-heatmap"
+import CongestionDistribution from "@/components/congestion-distribution"
 
 export default function TrafficPredictionPage() {
   const [loading, setLoading] = useState(false)
@@ -73,9 +75,9 @@ export default function TrafficPredictionPage() {
         )}
 
         {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Traffic Map */}
-          <Card className="border-border bg-card/50 backdrop-blur">
+          <Card className="border-border bg-card/50 backdrop-blur lg:col-span-2">
             <CardHeader>
               <CardTitle className="text-foreground">Traffic Map</CardTitle>
               <CardDescription>Real-time congestion levels across segments</CardDescription>
@@ -90,17 +92,23 @@ export default function TrafficPredictionPage() {
             </CardContent>
           </Card>
 
-          {/* Live Location Predictions */}
-          {userLocation && (
-            <LiveLocationPredictions userLocation={userLocation} />
-          )}
+          {/* Congestion Distribution */}
+          <CongestionDistribution />
         </div>
+
+        {/* Live Location Predictions */}
+        {userLocation && (
+          <LiveLocationPredictions userLocation={userLocation} />
+        )}
 
         {/* Alerts Panel */}
         <AlertsPanel selectedSegment={null} />
 
         {/* Traffic History Chart */}
         <TrafficHistoryChart />
+
+        {/* Weekly Traffic Heatmap */}
+        <WeeklyTrafficHeatmap />
 
       </div>
     </main>
