@@ -63,13 +63,28 @@ export default function TrafficPredictionPage() {
         )}
 
         {userLocation && (
-          <Card className="border-green-500/50 bg-green-500/10">
-            <CardContent className="pt-6">
-              <p className="text-green-600 text-sm">
-                📍 Live location: {userLocation.lat.toFixed(4)}, {userLocation.lng.toFixed(4)}
-              </p>
-            </CardContent>
-          </Card>
+          <div className="border border-green-500/50 bg-gradient-to-r from-green-500/10 to-emerald-500/10 backdrop-blur rounded-lg px-4 py-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="relative">
+                  <span className="text-2xl">📍</span>
+                  <div className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="text-green-400 font-medium text-sm">Live location:</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-green-300 font-mono text-sm">
+                      {userLocation.lat.toFixed(4)}, {userLocation.lng.toFixed(4)}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 bg-green-500/20 rounded-full px-3 py-1 border border-green-500/30">
+                <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
+                <span className="text-green-400 text-xs font-medium">Tracking</span>
+              </div>
+            </div>
+          </div>
         )}
 
         {/* Main Content */}

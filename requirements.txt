@@ -1,0 +1,87 @@
+# ============================================================================
+# TRAFFIC CONGESTION PREDICTION APPLICATION - COMPLETE REQUIREMENTS
+# ============================================================================
+# This file contains all Python dependencies for the entire application
+# including ML models, Flask API, data processing, and testing utilities
+# ============================================================================
+
+# Core Scientific Computing
+numpy>=1.26.0
+pandas>=2.0.3
+scipy>=1.11.0
+
+# Machine Learning & Deep Learning
+tensorflow==2.20.0
+scikit-learn>=1.3.0
+joblib>=1.3.2
+
+# PyTorch & PyTorch Geometric (for GNN models)
+torch>=2.0.0
+torchvision>=0.15.0
+torchaudio>=2.0.0
+torch-geometric>=2.3.0
+
+# Web Framework & API
+flask==2.3.3
+flask-cors>=4.0.0
+gunicorn==21.2.0
+requests>=2.31.0
+
+# Data Visualization
+matplotlib>=3.4.0
+seaborn>=0.12.0
+
+# Date & Time Utilities
+python-dateutil>=2.8.2
+
+# Environment Variables
+python-dotenv>=1.0.0
+
+# Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+
+# Code Quality
+pylint>=2.17.0
+black>=23.0.0
+
+# ============================================================================
+# INSTALLATION NOTES
+# ============================================================================
+# 
+# 1. Basic Installation:
+#    pip install -r requirements.txt
+#
+# 2. PyTorch Installation (GPU support):
+#    For CUDA 11.7:
+#    pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu117
+#    
+#    For CPU only:
+#    pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+#
+# 3. PyTorch Geometric Installation:
+#    pip install torch-geometric -f https://data.pyg.org/whl/torch-<TORCH_VERSION>.html
+#    Replace <TORCH_VERSION> with your PyTorch version (e.g., 2.0.0)
+#
+# 4. For development:
+#    pip install -r requirements.txt
+#    pip install -e .
+#
+# ============================================================================
+# COMPONENT BREAKDOWN
+# ============================================================================
+#
+# ML Models (traffic/*, UCS_Model-main/*):
+#   - tensorflow, numpy, pandas, scikit-learn, matplotlib
+#   - torch, torch-geometric (for GNN models)
+#
+# Flask API (UCS_Model-main/traffic_prediction_api*.py):
+#   - flask, flask-cors, gunicorn, joblib
+#
+# Data Processing (scripts/data_generator.py, scripts/ml_models.py):
+#   - numpy, pandas, scikit-learn, tensorflow
+#
+# Testing (test_*.py):
+#   - requests, pytest
+#
+# ============================================================================
