@@ -4,7 +4,6 @@ import { useEffect, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import TrafficMap from "@/components/traffic-map"
 
-import AlertsPanel from "@/components/alerts-panel"
 import BackendStatus from "@/components/backend-status"
 import LiveLocationPredictions from "@/components/live-location-predictions"
 import TrafficHistoryChart from "@/components/traffic-history-chart"
@@ -12,7 +11,6 @@ import WeeklyTrafficHeatmap from "@/components/weekly-traffic-heatmap"
 import CongestionDistribution from "@/components/congestion-distribution"
 
 export default function TrafficPredictionPage() {
-  const [loading, setLoading] = useState(false)
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null)
   const [locationError, setLocationError] = useState<string | null>(null)
 
@@ -100,9 +98,6 @@ export default function TrafficPredictionPage() {
         {userLocation && (
           <LiveLocationPredictions userLocation={userLocation} />
         )}
-
-        {/* Alerts Panel */}
-        <AlertsPanel selectedSegment={null} />
 
         {/* Traffic History Chart */}
         <TrafficHistoryChart />
