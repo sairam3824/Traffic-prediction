@@ -178,8 +178,7 @@ export default function CongestionDistribution() {
 
   const CustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percentage }: any) => {
     const RADIAN = Math.PI / 180
-    // Position labels outside the circle
-    const radius = outerRadius + 25 // 25px outside the outer radius
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5
     const x = cx + radius * Math.cos(-midAngle * RADIAN)
     const y = cy + radius * Math.sin(-midAngle * RADIAN)
 
@@ -189,10 +188,10 @@ export default function CongestionDistribution() {
       <text
         x={x}
         y={y}
-        fill="currentColor"
+        fill="white"
         textAnchor={x > cx ? 'start' : 'end'}
         dominantBaseline="central"
-        className="text-sm font-bold fill-foreground"
+        className="text-xs font-semibold"
       >
         {`${percentage}%`}
       </text>
