@@ -19,14 +19,11 @@ export interface PredictionResponse {
   }>
 }
 
-/**
- * Get predictions for a traffic segment
- * In production, this would call the ML service API
- */
+
 export async function getPredictionsForSegment(request: PredictionRequest): Promise<PredictionResponse> {
   const supabase = await createClient()
 
-  // Query predictions from database
+  
   let query = supabase
     .from("predictions")
     .select("*")
@@ -55,9 +52,7 @@ export async function getPredictionsForSegment(request: PredictionRequest): Prom
   }
 }
 
-/**
- * Compare predictions from all three models
- */
+
 export async function compareModelPredictions(segmentId: string): Promise<{
   lstm: PredictionResponse
   gnn: PredictionResponse
@@ -72,9 +67,7 @@ export async function compareModelPredictions(segmentId: string): Promise<{
   return { lstm, gnn, cnnGru }
 }
 
-/**
- * Get model performance metrics
- */
+
 export async function getModelPerformanceMetrics(): Promise<
   Array<{
     modelType: string
@@ -94,7 +87,7 @@ export async function getModelPerformanceMetrics(): Promise<
 
   if (error) throw error
 
-  // Group by model type and get latest metrics
+  
   const metrics: Record<string, any> = {}
   ;(data || []).forEach((row: any) => {
     if (!metrics[row.model_type]) {

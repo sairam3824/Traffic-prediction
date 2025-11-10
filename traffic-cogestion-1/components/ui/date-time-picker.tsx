@@ -35,7 +35,7 @@ export default function DateTimePicker({ value, min, max, onChange }: DateTimePi
     setAmpm(isPM ? "PM" : "AM")
   }, [value])
 
-  // Final combined DateTime
+  
   const selectedDateTime = React.useMemo(() => {
     if (!date) return null
     const d = new Date(date)
@@ -59,7 +59,7 @@ export default function DateTimePicker({ value, min, max, onChange }: DateTimePi
 
   return (
     <div className="flex flex-col gap-4">
-      {/* Date Picker */}
+      {}
       <Popover>
         <PopoverTrigger asChild>
           <Button
@@ -85,7 +85,7 @@ export default function DateTimePicker({ value, min, max, onChange }: DateTimePi
         </PopoverContent>
       </Popover>
 
-      {/* Time Picker */}
+      {}
       <div className="flex items-center gap-2">
         <Clock className="h-4 w-4 text-muted-foreground" />
         <Select value={hour} onValueChange={setHour}>
@@ -130,7 +130,7 @@ export default function DateTimePicker({ value, min, max, onChange }: DateTimePi
         </Select>
       </div>
 
-      {/* Result */}
+      {}
       <p className="text-sm text-muted-foreground">
         Selected:{" "}
         {selectedDateTime ? format(selectedDateTime, "PPP p") : "No date & time selected"}

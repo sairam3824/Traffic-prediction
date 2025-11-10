@@ -12,7 +12,7 @@ export async function GET(request: Request) {
 
     const supabase = await createClient()
 
-    // Fetch predictions from all three models
+    
     const [lstmData, gnnData, cnnGruData] = await Promise.all([
       supabase
         .from("predictions")

@@ -28,7 +28,7 @@ export default function WeeklyTrafficHeatmap() {
         const now = new Date()
         const heatmap: HeatmapCell[] = []
 
-        // Generate data for 7 days (today + next 6 days)
+        
         for (let dayOffset = 0; dayOffset < 7; dayOffset++) {
           const targetDate = new Date(now)
           targetDate.setDate(now.getDate() + dayOffset)
@@ -38,14 +38,14 @@ export default function WeeklyTrafficHeatmap() {
           const isToday = dayOffset === 0
           const currentHour = now.getHours()
 
-          // Generate data for each hour (0-23)
+          
           for (let hour = 0; hour < 24; hour++) {
             const isPrediction = dayOffset > 0 || (isToday && hour > currentHour)
             
-            let congestion = 30 // Default moderate traffic
+            let congestion = 30 
 
             if (!isPrediction) {
-              // Historical data - try to get from API or generate realistic data
+              
               const hourData = result.data.filter((obs: any) => {
                 const obsDate = new Date(obs.timestamp)
                 return obsDate.getHours() === hour && 
@@ -59,7 +59,7 @@ export default function WeeklyTrafficHeatmap() {
                 congestion = generateRealisticTraffic(hour, dayName, false)
               }
             } else {
-              // Predicted data
+              
               congestion = generateRealisticTraffic(hour, dayName, true)
             }
 
@@ -90,49 +90,49 @@ export default function WeeklyTrafficHeatmap() {
     }
   }
 
-  // Generate realistic traffic patterns based on time and day
+  
   const generateRealisticTraffic = (hour: number, dayName: string, isPrediction: boolean): number => {
     const isWeekend = dayName === 'Sat' || dayName === 'Sun'
     let baseCongestion = 30
 
-    // Weekend patterns
+    
     if (isWeekend) {
       if (hour >= 10 && hour <= 14) {
-        // Weekend midday shopping/leisure
+        
         baseCongestion = 45 + Math.random() * 15
       } else if (hour >= 18 && hour <= 21) {
-        // Weekend evening entertainment
+        
         baseCongestion = 50 + Math.random() * 20
       } else if (hour >= 0 && hour <= 6) {
-        // Late night/early morning
+        
         baseCongestion = 10 + Math.random() * 10
       } else {
         baseCongestion = 30 + Math.random() * 15
       }
     } 
-    // Weekday patterns
+    
     else {
       if (hour >= 7 && hour <= 9) {
-        // Morning rush hour
+        
         baseCongestion = 65 + Math.random() * 25
       } else if (hour >= 17 && hour <= 19) {
-        // Evening rush hour
+        
         baseCongestion = 70 + Math.random() * 20
       } else if (hour >= 10 && hour <= 16) {
-        // Business hours
+        
         baseCongestion = 40 + Math.random() * 20
       } else if (hour >= 20 && hour <= 23) {
-        // Evening
+        
         baseCongestion = 30 + Math.random() * 15
       } else if (hour >= 0 && hour <= 6) {
-        // Night
+        
         baseCongestion = 10 + Math.random() * 10
       } else {
         baseCongestion = 35 + Math.random() * 15
       }
     }
 
-    // Add some variation for predictions
+    
     if (isPrediction) {
       baseCongestion += (Math.random() - 0.5) * 10
     }
@@ -143,7 +143,7 @@ export default function WeeklyTrafficHeatmap() {
   useEffect(() => {
     fetchWeeklyTrafficData()
     
-    // Update every 10 minutes
+    
     const interval = setInterval(fetchWeeklyTrafficData, 10 * 60 * 1000)
     return () => clearInterval(interval)
   }, [])
@@ -164,7 +164,7 @@ export default function WeeklyTrafficHeatmap() {
   }
 
   const getCellOpacity = (congestion: number) => {
-    // Scale opacity based on congestion level
+    
     const opacity = Math.max(0.3, Math.min(1, congestion / 100))
     return opacity
   }
@@ -188,7 +188,7 @@ export default function WeeklyTrafficHeatmap() {
     )
   }
 
-  // Group data by day
+  
   const dayGroups = heatmapData.reduce((acc, cell) => {
     if (!acc[cell.dayName]) {
       acc[cell.dayName] = []
@@ -219,10 +219,10 @@ export default function WeeklyTrafficHeatmap() {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          {/* Heatmap Grid */}
+          {}
           <div className="overflow-x-auto">
             <div className="inline-block min-w-full">
-              {/* Hour labels */}
+              {}
               <div className="flex mb-2">
                 <div className="w-20 flex-shrink-0"></div>
                 <div className="flex gap-0.5 flex-1">
@@ -237,20 +237,20 @@ export default function WeeklyTrafficHeatmap() {
                 </div>
               </div>
 
-              {/* Day rows */}
+              {}
               {days.map((dayName) => {
                 const dayCells = dayGroups[dayName]
                 const isToday = dayName === new Date().toLocaleDateString('en-US', { weekday: 'short' })
                 
                 return (
                   <div key={dayName} className="flex mb-0.5 items-center">
-                    {/* Day label */}
+                    {}
                     <div className={`w-20 flex-shrink-0 text-sm font-medium ${isToday ? 'text-primary' : 'text-foreground'}`}>
                       {dayName}
                       {isToday && <span className="text-xs text-primary ml-1">•</span>}
                     </div>
                     
-                    {/* Hour cells */}
+                    {}
                     <div className="flex gap-0.5 flex-1">
                       {dayCells.map((cell) => (
                         <div
@@ -274,7 +274,7 @@ export default function WeeklyTrafficHeatmap() {
             </div>
           </div>
 
-          {/* Selected Cell Info */}
+          {}
           {selectedCell && (
             <div className="mt-4 p-3 bg-muted/30 rounded-lg border border-border">
               <div className="flex items-start justify-between">
@@ -311,7 +311,7 @@ export default function WeeklyTrafficHeatmap() {
             </div>
           )}
 
-          {/* Legend */}
+          {}
           <div className="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-border/50">
             <div className="flex items-center gap-3 text-xs">
               <span className="text-muted-foreground font-medium">Traffic Level:</span>
@@ -338,7 +338,7 @@ export default function WeeklyTrafficHeatmap() {
             </div>
           </div>
 
-          {/* Summary Stats */}
+          {}
           <div className="grid grid-cols-3 gap-4 pt-3 border-t border-border/50">
             <div className="text-center">
               <p className="text-3xl font-bold text-foreground">

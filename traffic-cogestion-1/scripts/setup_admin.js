@@ -1,4 +1,4 @@
-// Script to create admin user in Supabase
+
 const { createClient } = require('@supabase/supabase-js')
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
@@ -18,7 +18,7 @@ async function createAdminUser() {
   try {
     console.log('Creating admin user...')
     
-    // Create admin user
+    
     const { data, error } = await supabase.auth.admin.createUser({
       email: 'admin@traffic.com',
       password: 'admin123456',
@@ -54,7 +54,7 @@ async function createDemoUser() {
   try {
     console.log('Creating demo user...')
     
-    // Create demo user
+    
     const { data, error } = await supabase.auth.admin.createUser({
       email: 'demo@traffic.com',
       password: 'password123',

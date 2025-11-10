@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 
-const FLASK_API_URL = process.env.FLASK_API_URL || "http://localhost:5000"
+const FLASK_API_URL = process.env.FLASK_API_URL || "http:
 
 export async function POST(request: Request) {
   try {
@@ -14,7 +14,7 @@ export async function POST(request: Request) {
       )
     }
 
-    // Call Flask API
+    
     const response = await fetch(`${FLASK_API_URL}/api/predict`, {
       method: "POST",
       headers: {

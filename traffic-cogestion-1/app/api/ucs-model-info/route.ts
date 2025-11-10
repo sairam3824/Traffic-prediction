@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server"
 
-const FLASK_API_URL = process.env.FLASK_API_URL || "http://localhost:5000"
+const FLASK_API_URL = process.env.FLASK_API_URL || "http:
 
 export async function GET() {
   try {
-    // Check if Flask URL is configured
+    
     if (!FLASK_API_URL) {
       return NextResponse.json(
         { 
@@ -20,7 +20,7 @@ export async function GET() {
       headers: {
         "Content-Type": "application/json",
       },
-      // Add timeout to fail fast
+      
       signal: AbortSignal.timeout(5000)
     })
 
@@ -53,7 +53,7 @@ export async function GET() {
   } catch (error: any) {
     console.error("[UCS Model] Error fetching model info:", error)
     
-    // Provide specific error messages
+    
     let errorMessage = "Failed to fetch model information"
     
     if (error.code === 'ECONNREFUSED') {

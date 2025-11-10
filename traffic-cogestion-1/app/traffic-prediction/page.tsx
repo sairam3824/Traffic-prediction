@@ -14,7 +14,7 @@ export default function TrafficPredictionPage() {
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null)
   const [locationError, setLocationError] = useState<string | null>(null)
 
-  // Get user's live location
+  
   useEffect(() => {
     if (!navigator.geolocation) {
       setLocationError("Geolocation is not supported by this browser")
@@ -34,7 +34,7 @@ export default function TrafficPredictionPage() {
       {
         enableHighAccuracy: true,
         timeout: 10000,
-        maximumAge: 30000, // Cache for 30 seconds
+        maximumAge: 30000, 
       }
     )
 
@@ -47,13 +47,13 @@ export default function TrafficPredictionPage() {
     <main className="min-h-screen bg-background p-6">
       <BackendStatus />
       <div className="max-w-7xl mx-auto space-y-6">
-        {/* Header */}
+        {}
         <div className="space-y-2">
           <h1 className="text-4xl font-bold text-foreground">Traffic Congestion Prediction</h1>
           <p className="text-muted-foreground">Real-time traffic analysis powered by AI-driven predictions.</p>
         </div>
 
-        {/* Live Location Status */}
+        {}
         {locationError && (
           <Card className="border-yellow-500/50 bg-yellow-500/10">
             <CardContent className="pt-6">
@@ -87,9 +87,9 @@ export default function TrafficPredictionPage() {
           </div>
         )}
 
-        {/* Main Content */}
+        {}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Traffic Map */}
+          {}
           <Card className="border-border bg-card/50 backdrop-blur lg:col-span-2">
             <CardHeader>
               <CardTitle className="text-foreground">Traffic Map</CardTitle>
@@ -105,19 +105,19 @@ export default function TrafficPredictionPage() {
             </CardContent>
           </Card>
 
-          {/* Congestion Distribution */}
+          {}
           <CongestionDistribution />
         </div>
 
-        {/* Live Location Predictions */}
+        {}
         {userLocation && (
           <LiveLocationPredictions userLocation={userLocation} />
         )}
 
-        {/* Traffic History Chart */}
+        {}
         <TrafficHistoryChart />
 
-        {/* Weekly Traffic Heatmap */}
+        {}
         <WeeklyTrafficHeatmap />
 
       </div>

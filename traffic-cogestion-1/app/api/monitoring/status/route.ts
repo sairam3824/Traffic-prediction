@@ -5,7 +5,7 @@ export async function GET() {
   try {
     const supabase = await createClient()
 
-    // Get system metrics
+    
     const [segmentsRes, alertsRes, predictionsRes] = await Promise.all([
       supabase.from("traffic_segments").select("count", { count: "exact" }).limit(1),
       supabase.from("alerts").select("count", { count: "exact" }).eq("status", "active").limit(1),

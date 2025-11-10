@@ -33,7 +33,7 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
 
   const { theme } = useTheme()
 
-  // Apply theme-aware styling
+  
   const isDark = theme === 'dark'
   const [showTraffic, setShowTraffic] = useState(true)
   const [showTransit, setShowTransit] = useState(false)
@@ -83,7 +83,7 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
     }
   }, [polyline])
 
-  // Function to analyze and score all available routes
+  
   const analyzeAllRoutes = async (allRoutes: google.maps.DirectionsRoute[]) => {
     const scores: { [key: number]: { score: number, avgTraffic: number, recommendation: string } } = {}
     let bestScore = Infinity
@@ -94,7 +94,7 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
       const leg = route.legs[0]
       const steps = leg.steps
 
-      // Sample fewer points for multiple routes to avoid API overload
+      
       const sampleSteps = steps.filter((_, index) => index % Math.max(1, Math.floor(steps.length / 5)) === 0)
       let totalTraffic = 0
       let validPredictions = 0
@@ -122,22 +122,22 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
             }
           }
         } catch (error) {
-          // Use fallback traffic estimation
-          totalTraffic += 50 // Assume moderate traffic
+          
+          totalTraffic += 50 
           validPredictions++
         }
       }
 
       const avgTraffic = validPredictions > 0 ? totalTraffic / validPredictions : 50
 
-      // Calculate route score (lower is better)
-      // Factors: traffic (60%), distance (25%), duration (15%)
+      
+      
       const distanceKm = leg.distance?.value ? leg.distance.value / 1000 : 0
       const durationMin = leg.duration?.value ? leg.duration.value / 60 : 0
 
-      const trafficScore = avgTraffic // 0-100
-      const distanceScore = Math.min(100, distanceKm * 2) // Normalize distance
-      const durationScore = Math.min(100, durationMin) // Normalize duration
+      const trafficScore = avgTraffic 
+      const distanceScore = Math.min(100, distanceKm * 2) 
+      const durationScore = Math.min(100, durationMin) 
 
       const compositeScore = (trafficScore * 0.6) + (distanceScore * 0.25) + (durationScore * 0.15)
 
@@ -167,7 +167,7 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
     setRouteScores(scores)
     setBestRouteIndex(bestIndex)
 
-    // Update current route traffic level based on selected route
+    
     const selectedRouteScore = scores[selectedRouteIndex] || scores[0]
     if (selectedRouteScore) {
       let routeLevel: 'low' | 'medium' | 'high'
@@ -181,7 +181,7 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
       setCurrentRouteTrafficLevel(routeLevel)
     }
 
-    // Auto-select best route if it's significantly better
+    
     if (bestIndex !== selectedRouteIndex && scores[bestIndex].avgTraffic < scores[selectedRouteIndex]?.avgTraffic - 15) {
       setSelectedRouteIndex(bestIndex)
     }
@@ -189,7 +189,7 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
     return bestIndex
   }
 
-  // Function to get traffic predictions for route segments following actual roads
+  
   const getTrafficPredictionsForRoute = async (route: google.maps.DirectionsRoute) => {
     setIsLoadingTraffic(true)
     const segments: any[] = []
@@ -198,15 +198,15 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
       const leg = route.legs[0]
       const steps = leg.steps
 
-      // Process each step to get traffic predictions and preserve road paths
+      
       for (let i = 0; i < steps.length; i++) {
         const step = steps[i]
 
-        // Sample every 4th step to balance performance and accuracy, but always include first and last
+        
         const shouldSample = (i % 4 === 0) || (i === 0) || (i === steps.length - 1)
 
         if (!shouldSample) {
-          // For non-sampled steps, use moderate traffic as default
+          
           segments.push({
             stepIndex: i,
             trafficLevel: 'medium',
@@ -221,7 +221,7 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
         const lng = step.start_location.lng()
 
         try {
-          // Get prediction from our UCS model for sampled steps
+          
           const response = await fetch('/api/ucs-predict', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -238,7 +238,7 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
               const prediction = result.data.prediction
               let trafficLevel: 'low' | 'medium' | 'high'
 
-              // Convert prediction percentage to traffic level
+              
               if (prediction >= 60) trafficLevel = 'high'
               else if (prediction >= 35) trafficLevel = 'medium'
               else trafficLevel = 'low'
@@ -255,7 +255,7 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
           }
         } catch (error) {
           console.error('Error getting traffic prediction for step:', error)
-          // Add step with moderate traffic as fallback
+          
           segments.push({
             stepIndex: i,
             trafficLevel: 'medium',
@@ -266,13 +266,13 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
         }
       }
 
-      // Apply traffic propagation to smooth out predictions
+      
       const propagationRange = 3
       for (let i = 0; i < segments.length; i++) {
         if (segments[i].sampled) {
           const sampledPrediction = segments[i].prediction
 
-          // Propagate to nearby segments
+          
           for (let j = Math.max(0, i - propagationRange); j <= Math.min(segments.length - 1, i + propagationRange); j++) {
             if (j !== i && segments[j] && !segments[j].sampled) {
               const distance = Math.abs(j - i)
@@ -296,7 +296,7 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
 
       setTrafficSegments(segments)
 
-      // Calculate overall route traffic level
+      
       calculateRouteTrafficLevel(segments)
     } catch (error) {
       console.error('Error processing route for traffic predictions:', error)
@@ -305,7 +305,7 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
     }
   }
 
-  // Compute route via Google Directions for native rendering
+  
   useEffect(() => {
     if (!mapInstance) return
     if (!origin || !destination) return
@@ -331,15 +331,15 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
           if (status === google.maps.DirectionsStatus.OK && result) {
             setDirections(result)
 
-            // Analyze all routes to find the best one
+            
             if (result.routes.length > 1) {
               const bestIndex = await analyzeAllRoutes(result.routes)
               setSelectedRouteIndex(bestIndex)
-              // Get detailed traffic predictions for the best route
+              
               getTrafficPredictionsForRoute(result.routes[bestIndex])
             } else {
               setSelectedRouteIndex(0)
-              // Get traffic predictions for the single route
+              
               getTrafficPredictionsForRoute(result.routes[0])
             }
 
@@ -374,13 +374,13 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
   const getPolylineColor = () => {
     switch (trafficDensity) {
       case 'high':
-        return '#ef4444' // red
+        return '#ef4444' 
       case 'medium':
-        return '#f97316' // orange
+        return '#f97316' 
       case 'low':
-        return '#10b981' // green
+        return '#10b981' 
       default:
-        return '#3b82f6' // blue
+        return '#3b82f6' 
     }
   }
 
@@ -400,17 +400,17 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
   const getPolylineColorDynamic = () => {
     switch (currentRouteTrafficLevel) {
       case 'high':
-        return '#ef4444' // red
+        return '#ef4444' 
       case 'medium':
-        return '#f97316' // orange
+        return '#f97316' 
       case 'low':
-        return '#10b981' // green
+        return '#10b981' 
       default:
-        return '#6b7280' // gray
+        return '#6b7280' 
     }
   }
 
-  // Function to calculate overall route traffic level
+  
   const calculateRouteTrafficLevel = (segments: any[]) => {
     if (!segments || segments.length === 0) {
       setCurrentRouteTrafficLevel('unknown')
@@ -418,11 +418,11 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
       return
     }
 
-    // Calculate average traffic prediction across all segments
+    
     const totalPrediction = segments.reduce((sum, segment) => sum + (segment.prediction || 45), 0)
     const avgPrediction = totalPrediction / segments.length
 
-    // Determine overall traffic level
+    
     let overallLevel: 'low' | 'medium' | 'high'
     if (avgPrediction >= 65) {
       overallLevel = 'high'
@@ -580,10 +580,10 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
             onDragStart={() => setUserHasInteracted(true)}
             onZoomChanged={() => setUserHasInteracted(true)}
           >
-            {/* Live Traffic Layer */}
+            {}
             {showTraffic && <TrafficLayer />}
 
-            {/* Optional transit/bicycling layers */}
+            {}
             {showTransit && <TransitLayer />}
             {showBicycling && <BicyclingLayer />}
             {userLocation && (
@@ -601,10 +601,10 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
               />
             )}
 
-            {/* Enhanced Directions rendering with traffic-colored segments */}
+            {}
             {directions ? (
               <>
-                {/* Use DirectionsRenderer with custom polyline options for traffic colors */}
+                {}
                 <DirectionsRenderer
                   options={{
                     directions,
@@ -612,19 +612,19 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
                     suppressMarkers: true,
                     preserveViewport: false,
                     polylineOptions: {
-                      strokeColor: '#2563eb', // Default blue
-                      strokeOpacity: 0.1, // Very transparent base
+                      strokeColor: '#2563eb', 
+                      strokeOpacity: 0.1, 
                       strokeWeight: 8,
                     },
                   }}
                 />
 
-                {/* Render traffic-colored segments using the complete route path */}
+                {}
                 {directions.routes[selectedRouteIndex] && (() => {
                   const route = directions.routes[selectedRouteIndex]
                   const leg = route.legs[0]
 
-                  // Get the complete route path by decoding the overview polyline
+                  
                   let completePath: google.maps.LatLng[] = []
                   if (route.overview_polyline && window.google?.maps?.geometry?.encoding) {
                     try {
@@ -641,18 +641,18 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
                     return null
                   }
 
-                  // Divide the complete path into segments for traffic coloring
-                  const segmentSize = Math.max(1, Math.floor(completePath.length / 20)) // 20 segments max
+                  
+                  const segmentSize = Math.max(1, Math.floor(completePath.length / 20)) 
                   const coloredSegments = []
 
                   for (let i = 0; i < completePath.length - segmentSize; i += segmentSize) {
                     const segmentPath = completePath.slice(i, i + segmentSize + 1)
 
-                    // Determine traffic level for this segment
-                    let trafficLevel = 'medium' // Default
-                    let prediction = 45 // Default prediction
+                    
+                    let trafficLevel = 'medium' 
+                    let prediction = 45 
 
-                    // Find corresponding traffic segment if available
+                    
                     const segmentIndex = Math.floor((i / completePath.length) * trafficSegments.length)
                     if (trafficSegments[segmentIndex]) {
                       trafficLevel = trafficSegments[segmentIndex].trafficLevel
@@ -661,10 +661,10 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
 
                     const getSegmentColor = (level: string) => {
                       switch (level) {
-                        case 'high': return '#ef4444'   // Red
-                        case 'medium': return '#f97316' // Orange  
-                        case 'low': return '#10b981'    // Green
-                        default: return '#6b7280'       // Gray
+                        case 'high': return '#ef4444'   
+                        case 'medium': return '#f97316' 
+                        case 'low': return '#10b981'    
+                        default: return '#6b7280'       
                       }
                     }
 
@@ -704,7 +704,7 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
                   return coloredSegments
                 })()}
 
-                {/* Loading indicator */}
+                {}
                 {isLoadingTraffic && (
                   <div className="absolute top-4 left-4 bg-white/95 dark:bg-black/95 px-3 py-2 rounded-lg shadow-lg text-sm flex items-center gap-2 z-[1001]">
                     <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
@@ -712,7 +712,7 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
                   </div>
                 )}
 
-                {/* Render markers for origin and destination */}
+                {}
                 <Marker
                   position={{ lat: origin.lat, lng: origin.lng }}
                   title={origin.name}
@@ -742,7 +742,7 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
               </>
             ) : (
               <>
-                {/* Fallback markers and polyline using provided data */}
+                {}
                 <Marker
                   position={{ lat: origin.lat, lng: origin.lng }}
                   title={origin.name}
@@ -769,7 +769,7 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
                     scale: 0.5,
                   }}
                 />
-                {/* Route Polyline (fallback only) */}
+                {}
                 {decodedPath.length > 0 && !directions && (
                   <Polyline
                     path={decodedPath}
@@ -786,7 +786,7 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
 
 
 
-            {/* Origin Info Window */}
+            {}
             {selectedMarker === "origin" && (
               <InfoWindow position={{ lat: origin.lat, lng: origin.lng }} onCloseClick={() => setSelectedMarker(null)}>
                 <div className="bg-popover text-popover-foreground p-3 rounded text-sm border border-border">
@@ -796,7 +796,7 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
               </InfoWindow>
             )}
 
-            {/* Destination Info Window */}
+            {}
             {selectedMarker === "destination" && (
               <InfoWindow
                 position={{ lat: destination.lat, lng: destination.lng }}
@@ -811,7 +811,7 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
           </GoogleMap>
         </LoadScript>
 
-        {/* Controls */}
+        {}
         <div className="flex flex-wrap items-center gap-4 mb-4 text-sm">
           <label className="flex items-center gap-2 text-foreground">
             <input
@@ -877,11 +877,11 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
           </label>
           <button
             onClick={() => {
-              // Smart route optimization - avoid high traffic areas
-              setAvoidHighways(false) // Allow highways for better traffic flow
-              // Trigger route recalculation
+              
+              setAvoidHighways(false) 
+              
               if (mapInstance && origin && destination) {
-                // This will trigger the useEffect to recalculate routes
+                
                 setDirections(null)
               }
             }}
@@ -934,7 +934,7 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
             My location
           </button>
         </div>
-        {/* Route Optimization Panel */}
+        {}
         {directions && directions.routes?.length > 1 && showRouteOptimization && (
           <div className="mb-4 p-4 bg-muted/50 rounded-lg border">
             <div className="flex items-center justify-between mb-3">
@@ -971,7 +971,7 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
                       setSelectedRouteIndex(idx)
                       getTrafficPredictionsForRoute(directions.routes[idx])
 
-                      // Update traffic level for the newly selected route
+                      
                       const routeScore = routeScores[idx]
                       if (routeScore) {
                         let routeLevel: 'low' | 'medium' | 'high'
@@ -1016,7 +1016,7 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
               })}
             </div>
 
-            {/* Smart Suggestions */}
+            {}
             <div className="mt-3 space-y-2">
               {routeScores[bestRouteIndex] && bestRouteIndex !== selectedRouteIndex && (
                 <div className="p-2 bg-green-100 dark:bg-green-900/20 rounded text-xs">
@@ -1039,7 +1039,7 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
           </div>
         )}
 
-        {/* Simple route selector for when optimization panel is hidden */}
+        {}
         {directions && directions.routes?.length > 1 && !showRouteOptimization && (
           <div className="mb-2 flex flex-wrap gap-2 items-center">
             <button
@@ -1064,7 +1064,7 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
                     setSelectedRouteIndex(idx)
                     getTrafficPredictionsForRoute(directions.routes[idx])
 
-                    // Update traffic level for the newly selected route
+                    
                     const routeScore = routeScores[idx]
                     if (routeScore) {
                       let routeLevel: 'low' | 'medium' | 'high'
@@ -1085,7 +1085,7 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
             })}
           </div>
         )}
-        {/* Traffic Density Legend */}
+        {}
         <div className="mt-4 flex items-center justify-between gap-4 text-sm">
           <div className="flex gap-4 items-center">
             <div className="flex items-center gap-2">
@@ -1123,7 +1123,7 @@ export default function RouteMap({ origin, destination, polyline, distance, dura
                 ✅ {trafficSegments.length} segments
               </div>
             )}
-            {/* Traffic Alert */}
+            {}
             {routeScores[selectedRouteIndex] && routeScores[selectedRouteIndex].avgTraffic > 65 && (
               <div className="flex items-center gap-2 text-xs text-red-600 dark:text-red-400">
                 ⚠️ High traffic detected - consider alternative route or time

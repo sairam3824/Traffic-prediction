@@ -1,8 +1,8 @@
 import { createClient } from "@/lib/supabase/server"
 
 export interface AlertConfig {
-  congestionThreshold: number // Speed threshold for congestion (km/h)
-  volumeThreshold: number // Vehicle volume threshold
+  congestionThreshold: number 
+  volumeThreshold: number 
   severityLevels: {
     low: number
     medium: number
@@ -29,9 +29,7 @@ export class AlertService {
     this.config = { ...DEFAULT_CONFIG, ...config }
   }
 
-  /**
-   * Determine alert severity based on traffic conditions
-   */
+  
   determineSeverity(speed: number, volume: number): string {
     if (speed <= this.config.severityLevels.critical && volume > this.config.volumeThreshold) {
       return "critical"
@@ -48,16 +46,12 @@ export class AlertService {
     return "low"
   }
 
-  /**
-   * Check if congestion alert should be created
-   */
+  
   shouldCreateCongestionAlert(speed: number, volume: number): boolean {
     return speed < this.config.congestionThreshold && volume > this.config.volumeThreshold / 2
   }
 
-  /**
-   * Create congestion alert
-   */
+  
   async createCongestionAlert(segmentId: string, speed: number, volume: number): Promise<void> {
     const supabase = await createClient()
     const severity = this.determineSeverity(speed, volume)
@@ -77,9 +71,7 @@ export class AlertService {
     }
   }
 
-  /**
-   * Resolve active alerts for a segment
-   */
+  
   async resolveAlerts(segmentId: string): Promise<void> {
     const supabase = await createClient()
 
@@ -94,9 +86,7 @@ export class AlertService {
     }
   }
 
-  /**
-   * Get active alerts for a segment
-   */
+  
   async getActiveAlerts(segmentId: string): Promise<any[]> {
     const supabase = await createClient()
 

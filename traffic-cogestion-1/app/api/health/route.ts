@@ -5,7 +5,7 @@ export async function GET() {
   try {
     const supabase = await createClient()
 
-    // Check database connection
+    
     const { data, error } = await supabase.from("traffic_segments").select("count", { count: "exact" }).limit(1)
 
     if (error) {

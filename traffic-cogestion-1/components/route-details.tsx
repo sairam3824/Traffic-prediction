@@ -72,7 +72,7 @@ export default function RouteDetails({
       </CardHeader>
       <CardContent className="space-y-4">
         
-        {/* Summary Stats */}
+        {}
         <div className="grid grid-cols-2 gap-4">
           <div className={`p-4 rounded-lg border ${getTrafficBgColor(trafficDensity)}`}>
             <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
@@ -97,7 +97,7 @@ export default function RouteDetails({
           </div>
         </div>
 
-        {/* Congestion Alert */}
+        {}
         <div className={`p-3 rounded-lg border flex items-start gap-3 ${getTrafficBgColor(congestionInfo.severity)}`}>
           <AlertTriangle className={`h-5 w-5 mt-0.5 ${getTrafficColor(congestionInfo.severity)}`} />
           <div>
@@ -111,7 +111,7 @@ export default function RouteDetails({
           </div>
         </div>
 
-        {/* Step-by-Step Directions */}
+        {}
         {steps.length > 0 && (
           <div className="space-y-2">
             <h4 className="font-semibold text-sm text-foreground">Turn-by-Turn Directions</h4>
@@ -149,7 +149,7 @@ export default function RouteDetails({
           </div>
         )}
 
-        {/* Traffic Density Distribution */}
+        {}
         <div className="space-y-3">
           <h4 className="font-semibold text-sm text-foreground flex items-center gap-2">
             <span className="text-primary">📊</span>

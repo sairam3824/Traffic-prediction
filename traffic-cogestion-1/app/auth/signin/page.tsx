@@ -24,7 +24,7 @@ export default function SignInPage() {
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault()
     
-    // Basic validation
+    
     if (!email || !password) {
       setError("Please fill in all fields")
       return
@@ -45,10 +45,10 @@ export default function SignInPage() {
       }
 
       if (data.user) {
-        // Check if user is admin
+        
         const isAdmin = email.trim() === "admin@traffic.com"
         
-        // Redirect based on user type
+        
         if (isAdmin) {
           router.push("/admin")
         } else {

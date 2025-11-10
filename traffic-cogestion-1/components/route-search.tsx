@@ -20,7 +20,7 @@ interface RouteSearchProps {
   onRouteSelect: (origin: LocationPrediction, destination: LocationPrediction) => void
 }
 
-// Create a ref to store the history save function
+
 let saveToHistoryRef: ((origin: LocationPrediction, destination: LocationPrediction) => void) | null = null
 
 export default function RouteSearch({ onRouteSelect }: RouteSearchProps) {
@@ -109,7 +109,7 @@ export default function RouteSearch({ onRouteSelect }: RouteSearchProps) {
 
   const handlePlanRoute = () => {
     if (selectedOrigin && selectedDestination) {
-      // Save to history before planning route
+      
       if (saveToHistoryRef) {
         saveToHistoryRef(selectedOrigin, selectedDestination)
       }
@@ -117,17 +117,17 @@ export default function RouteSearch({ onRouteSelect }: RouteSearchProps) {
     }
   }
 
-  // Handle history selection
+  
   const handleHistorySelect = (origin: LocationPrediction, destination: LocationPrediction) => {
     setSelectedOrigin(origin)
     setSelectedDestination(destination)
     setOriginQuery(origin.description)
     setDestinationQuery(destination.description)
-    // Automatically plan the route
+    
     onRouteSelect(origin, destination)
   }
 
-  // Function to register the history save callback
+  
   const registerHistorySave = (saveFunction: (origin: LocationPrediction, destination: LocationPrediction) => void) => {
     saveToHistoryRef = saveFunction
   }
@@ -136,7 +136,7 @@ export default function RouteSearch({ onRouteSelect }: RouteSearchProps) {
     <div className="space-y-4">
       <Card className="border-border bg-card/50 backdrop-blur">
         <CardContent className="p-6 space-y-4">
-        {/* Origin Search */}
+        {}
         <div className="space-y-2">
           <label className="text-sm font-medium text-foreground">From</label>
           <div className="relative">
@@ -176,7 +176,7 @@ export default function RouteSearch({ onRouteSelect }: RouteSearchProps) {
           </div>
         </div>
 
-        {/* Destination Search */}
+        {}
         <div className="space-y-2">
           <label className="text-sm font-medium text-foreground">To</label>
           <div className="relative">
@@ -222,7 +222,7 @@ export default function RouteSearch({ onRouteSelect }: RouteSearchProps) {
           </div>
         )}
 
-        {/* Plan Route Button */}
+        {}
         <button
           onClick={handlePlanRoute}
           disabled={!selectedOrigin || !selectedDestination || loading}
@@ -232,7 +232,7 @@ export default function RouteSearch({ onRouteSelect }: RouteSearchProps) {
           {loading ? "Searching..." : "Plan Route"}
         </button>
 
-        {/* Selected Locations Summary */}
+        {}
         {selectedOrigin && selectedDestination && (
           <div className="bg-muted rounded-lg p-3 space-y-2 text-sm">
             <div className="flex items-center gap-2 text-foreground">
@@ -248,7 +248,7 @@ export default function RouteSearch({ onRouteSelect }: RouteSearchProps) {
         </CardContent>
       </Card>
 
-      {/* Search History */}
+      {}
       <RouteSearchHistory 
         onHistorySelect={handleHistorySelect}
         onRegisterSave={registerHistorySave}

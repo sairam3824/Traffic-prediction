@@ -73,20 +73,20 @@ export default function RoutePlannerPage() {
   return (
     <main className="min-h-screen bg-background p-6">
       <div className="max-w-7xl mx-auto space-y-6">
-        {/* Header */}
+        {}
         <div className="space-y-2">
           <h1 className="text-4xl font-bold text-foreground">Route Planner</h1>
           <p className="text-muted-foreground">Plan your route and check real-time congestion predictions</p>
         </div>
 
-        {/* Main Grid */}
+        {}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left Column - Search */}
+          {}
           <div className="lg:col-span-1">
             <RouteSearch onRouteSelect={handleRouteSelect} />
           </div>
 
-          {/* Right Column - Map, Details and Forecast */}
+          {}
           <div className="lg:col-span-2 space-y-6">
             {selectedRoute && origin && destination ? (
               <>

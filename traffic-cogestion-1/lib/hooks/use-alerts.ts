@@ -6,7 +6,7 @@ export function useAlerts(segmentId?: string) {
   const query = segmentId ? `?segmentId=${segmentId}&isActive=true` : "?isActive=true"
 
   const { data, error, isLoading, mutate } = useSWR(`/api/alerts${query}`, fetcher, {
-    refreshInterval: 30000, // Refresh every 30 seconds
+    refreshInterval: 30000, 
   })
 
   return {
@@ -19,7 +19,7 @@ export function useAlerts(segmentId?: string) {
 
 export function useModelPerformance() {
   const { data, error, isLoading } = useSWR("/api/model-performance", fetcher, {
-    refreshInterval: 60000, // Refresh every minute
+    refreshInterval: 60000, 
   })
 
   return {
@@ -35,7 +35,7 @@ export function usePredictions(segmentId: string, modelType?: string) {
     : `?segmentId=${segmentId}&limit=24`
 
   const { data, error, isLoading } = useSWR(`/api/predictions${query}`, fetcher, {
-    refreshInterval: 60000, // Refresh every minute
+    refreshInterval: 60000, 
   })
 
   return {

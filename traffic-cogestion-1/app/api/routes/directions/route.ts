@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import { createRoute } from "@/lib/db/routes"
 
-const FLASK_API_URL = process.env.FLASK_API_URL || "http://localhost:5000"
+const FLASK_API_URL = process.env.FLASK_API_URL || "http:
 
 export async function POST(request: Request) {
   try {
@@ -17,9 +17,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: "API key not configured" }, { status: 500 })
     }
 
-    // Get directions from Google Directions API
+    
     const response = await fetch(
-      `https://maps.googleapis.com/maps/api/directions/json?origin=${origin_lat},${origin_lng}&destination=${destination_lat},${destination_lng}&key=${apiKey}&traffic_model=best_guess&departure_time=now`,
+      `https:
     )
 
     const contentType = response.headers.get("content-type")
@@ -59,7 +59,7 @@ export async function POST(request: Request) {
       )
     }
 
-    // Extract polyline and route details
+    
     const routeData = {
       origin_name: extractedOriginName,
       origin_lat,
@@ -89,24 +89,24 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: "Invalid route data" }, { status: 400 })
     }
 
-    // Save route to database
-    // Only insert columns that actually exist in the Supabase `routes` table
+    
+    
     const { traffic_density, duration_in_traffic_minutes, ...dbInsert } = routeData as any
     const savedRoute = await createRoute(dbInsert)
 
-    // Calculate overall congestion level
+    
     const congestion_level = leg.duration_in_traffic && leg.duration.value 
       ? Math.min(1, Math.max(0, (leg.duration_in_traffic.value - leg.duration.value) / leg.duration.value))
       : 0
 
-    // Enhance steps with UCS model predictions for traffic density
-    // Strategy: Sample key steps for ML prediction, use intelligent fallback for others
     
-    // First, try to get a few key predictions from Flask to assess current traffic
+    
+    
+    
     const sampleIndices = [0, Math.floor(leg.steps.length / 3), Math.floor(2 * leg.steps.length / 3), leg.steps.length - 1]
     const flaskPredictions = new Map<number, 'low' | 'medium' | 'high'>()
     
-    // Try Flask API for sample steps only (to avoid overwhelming the service)
+    
     await Promise.allSettled(
       sampleIndices.map(async (index) => {
         if (index >= leg.steps.length) return
@@ -120,15 +120,15 @@ export async function POST(request: Request) {
               longitude: step.end_location.lng,
               timestamp: new Date().toISOString(),
             }),
-            signal: AbortSignal.timeout(2000), // 2 second timeout
+            signal: AbortSignal.timeout(2000), 
           })
 
           if (flaskResponse.ok) {
             const flaskData = await flaskResponse.json()
-            const trafficPrediction = flaskData.prediction // 0-100 scale
+            const trafficPrediction = flaskData.prediction 
             
             let density: 'low' | 'medium' | 'high'
-            // Adjusted thresholds to create better distribution
+            
             if (trafficPrediction >= 55) {
               density = 'high'
             } else if (trafficPrediction >= 35) {
@@ -139,43 +139,43 @@ export async function POST(request: Request) {
             flaskPredictions.set(index, density)
           }
         } catch (error) {
-          // Silent fail - will use fallback
+          
         }
       })
     )
 
-    // Determine base traffic from Google's overall route assessment
+    
     const baseTraffic = routeData.traffic_density as 'low' | 'medium' | 'high' | 'unknown'
     
-    // Now process all steps with smart prioritization
+    
     const enhancedSteps = leg.steps.map((step: any, index: number) => {
       let traffic_density: 'low' | 'medium' | 'high' | 'unknown' = baseTraffic
       
-      // Priority 1: Use Google's duration_in_traffic data (most accurate)
+      
       if (step.duration_in_traffic && step.duration.value) {
         const ratio = step.duration_in_traffic.value / step.duration.value
         traffic_density = ratio > 1.4 ? 'high' : (ratio > 1.15 ? 'medium' : 'low')
       }
-      // Priority 2: Use Flask ML prediction if available AND it differs significantly from base
+      
       else if (flaskPredictions.has(index)) {
         const flaskPrediction = flaskPredictions.get(index)!
-        // Only override if Flask shows significantly different from Google's base
+        
         if (baseTraffic === 'low' && flaskPrediction === 'high') {
-          traffic_density = 'medium' // Moderate the difference
+          traffic_density = 'medium' 
         } else if (baseTraffic === 'high' && flaskPrediction === 'low') {
-          traffic_density = 'medium' // Moderate the difference
+          traffic_density = 'medium' 
         } else {
           traffic_density = flaskPrediction
         }
       }
-      // Priority 3: Add some variation based on road characteristics
+      
       else {
-        // Highways and major roads (long distance segments) tend to have better flow
-        if (step.distance.value > 5000) { // > 5km
+        
+        if (step.distance.value > 5000) { 
           if (traffic_density === 'high') traffic_density = 'medium'
         }
-        // City streets (short segments) might have more congestion
-        else if (step.distance.value < 500) { // < 0.5km
+        
+        else if (step.distance.value < 500) { 
           if (traffic_density === 'low') traffic_density = 'medium'
         }
       }

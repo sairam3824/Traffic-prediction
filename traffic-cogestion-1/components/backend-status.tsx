@@ -25,12 +25,12 @@ export default function BackendStatus() {
 
   useEffect(() => {
     checkFlaskStatus()
-    const interval = setInterval(checkFlaskStatus, 10000) // Check every 10 seconds
+    const interval = setInterval(checkFlaskStatus, 10000) 
     return () => clearInterval(interval)
   }, [])
 
   if (flaskStatus === 'checking') {
-    return null // Don't show while checking initially
+    return null 
   }
 
   if (flaskStatus === 'offline') {

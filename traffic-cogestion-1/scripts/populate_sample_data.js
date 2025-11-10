@@ -1,4 +1,4 @@
-// Script to populate sample traffic data
+
 const { createClient } = require('@supabase/supabase-js')
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
@@ -13,7 +13,7 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 
 async function populateData() {
   try {
-    // Create sample traffic segments around Vijayawada
+    
     const segments = [
       {
         segment_name: 'NH-16 Vijayawada East',
@@ -62,7 +62,7 @@ async function populateData() {
 
     console.log('Created segments:', segmentData.length)
 
-    // Create sample alerts
+    
     const alerts = [
       {
         segment_id: segmentData[0].id,

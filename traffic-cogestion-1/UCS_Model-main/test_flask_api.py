@@ -1,15 +1,12 @@
 import requests
 import json
 from datetime import datetime
-
-# Test Flask API
 url = 'http://localhost:5000/api/predict'
 data = {
     'latitude': 16.5,
     'longitude': 80.6,
     'timestamp': datetime.now().isoformat()
 }
-
 try:
     response = requests.post(url, json=data, timeout=5)
     print(f"Status Code: {response.status_code}")

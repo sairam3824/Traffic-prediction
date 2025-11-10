@@ -40,7 +40,7 @@ export default function AdminPage() {
 
     const fetchStats = async () => {
       try {
-        // Fetch various statistics
+        
         const [segmentsRes, alertsRes, observationsRes] = await Promise.all([
           fetch('/api/traffic/segments'),
           fetch('/api/alerts?isActive=true'),
@@ -52,7 +52,7 @@ export default function AdminPage() {
         const observations = await observationsRes.json()
 
         setStats({
-          totalUsers: 5, // Mock data since we don't have user count API
+          totalUsers: 5, 
           totalSegments: segments.success ? segments.data.length : 0,
           activeAlerts: alerts.success ? alerts.data.length : 0,
           totalObservations: observations.success ? observations.data.length : 0
@@ -84,7 +84,7 @@ export default function AdminPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-6">
       <div className="max-w-7xl mx-auto space-y-6">
-        {/* Header */}
+        {}
         <div className="flex items-center justify-between">
           <div className="space-y-2">
             <div className="flex items-center gap-2">
@@ -108,7 +108,7 @@ export default function AdminPage() {
           </Button>
         </div>
 
-        {/* Stats Cards */}
+        {}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <Card className="border-slate-700 bg-slate-900/50 backdrop-blur">
             <CardHeader className="pb-3">
@@ -163,7 +163,7 @@ export default function AdminPage() {
           </Card>
         </div>
 
-        {/* Admin Actions */}
+        {}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <Card className="border-slate-700 bg-slate-900/50 backdrop-blur">
             <CardHeader>
@@ -215,7 +215,7 @@ export default function AdminPage() {
                     📋 Instructions: Go to Supabase Dashboard → SQL Editor → Run the SQL from CREATE_SUPABASE_TABLE.md
                   </p>
                   <p className="text-xs text-slate-400">
-                    🔗 Dashboard: https://supabase.com/dashboard/project/acxezffpbglztbmbfczc/sql
+                    🔗 Dashboard: https:
                   </p>
                 </div>
               </div>
@@ -238,11 +238,11 @@ export default function AdminPage() {
               <Button
                 onClick={async () => {
                   try {
-                    // Create the table using Supabase client directly
+                    
                     const { createClient } = await import('@/lib/supabase/client')
                     const supabase = createClient()
                     
-                    // Create table using raw SQL
+                    
                     const { error } = await supabase.rpc('exec_sql', {
                       sql: `
                         CREATE TABLE IF NOT EXISTS public.user_search_history (
@@ -293,7 +293,7 @@ export default function AdminPage() {
                       alert('❌ Failed to create table. Please create manually in Supabase dashboard.')
                     } else {
                       alert('✅ Search history table created successfully!')
-                      // Refresh the page to update stats
+                      
                       window.location.reload()
                     }
                   } catch (error) {
@@ -311,7 +311,7 @@ export default function AdminPage() {
           </Card>
         </div>
 
-        {/* Recent Activity */}
+        {}
         <Card className="border-slate-700 bg-slate-900/50 backdrop-blur">
           <CardHeader>
             <CardTitle className="text-white">Recent Activity</CardTitle>

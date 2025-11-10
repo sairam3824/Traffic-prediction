@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 
-const FLASK_API_URL = process.env.FLASK_API_URL || "http://localhost:5001"
+const FLASK_API_URL = process.env.FLASK_API_URL || "http:
 
 interface RouteOptimizationRequest {
   origin: { lat: number; lng: number }
@@ -31,8 +31,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: "API key not configured" }, { status: 500 })
     }
 
-    // Get multiple route alternatives from Google Directions
-    const directionsUrl = new URL("https://maps.googleapis.com/maps/api/directions/json")
+    
+    const directionsUrl = new URL("https:
     directionsUrl.searchParams.set("origin", `${origin.lat},${origin.lng}`)
     directionsUrl.searchParams.set("destination", `${destination.lat},${destination.lng}`)
     directionsUrl.searchParams.set("key", apiKey)
@@ -58,15 +58,15 @@ export async function POST(request: Request) {
       )
     }
 
-    // Analyze each route with UCS model predictions
+    
     const routeAnalysis = await Promise.all(
       directionsData.routes.map(async (route: any, index: number) => {
         const leg = route.legs[0]
         const steps = leg.steps
         
-        // Sample key points for traffic analysis
+        
         const samplePoints = []
-        const sampleInterval = Math.max(1, Math.floor(steps.length / 8)) // Sample 8 points max
+        const sampleInterval = Math.max(1, Math.floor(steps.length / 8)) 
         
         for (let i = 0; i < steps.length; i += sampleInterval) {
           const step = steps[i]
@@ -76,7 +76,7 @@ export async function POST(request: Request) {
           })
         }
 
-        // Get traffic predictions for sample points
+        
         let totalTraffic = 0
         let validPredictions = 0
         
@@ -90,7 +90,7 @@ export async function POST(request: Request) {
                 longitude: point.lng,
                 timestamp: departureTime || new Date().toISOString(),
               }),
-              signal: AbortSignal.timeout(3000), // 3 second timeout
+              signal: AbortSignal.timeout(3000), 
             })
 
             if (predictionResponse.ok) {
@@ -98,11 +98,11 @@ export async function POST(request: Request) {
               totalTraffic += predictionData.prediction || 50
               validPredictions++
             } else {
-              totalTraffic += 50 // Default moderate traffic
+              totalTraffic += 50 
               validPredictions++
             }
           } catch (error) {
-            totalTraffic += 50 // Fallback
+            totalTraffic += 50 
             validPredictions++
           }
         }
@@ -112,7 +112,7 @@ export async function POST(request: Request) {
         const durationMin = leg.duration.value / 60
         const durationInTrafficMin = leg.duration_in_traffic?.value ? leg.duration_in_traffic.value / 60 : durationMin
 
-        // Calculate optimization score (lower is better)
+        
         let score = 0
         
         if (preferences.prioritizeTraffic) {
@@ -120,11 +120,11 @@ export async function POST(request: Request) {
         } else if (preferences.prioritizeTime) {
           score = durationInTrafficMin * 0.6 + avgTraffic * 0.4
         } else {
-          // Balanced scoring
+          
           score = avgTraffic * 0.5 + (durationInTrafficMin / durationMin) * 25 + (distanceKm / 100) * 25
         }
 
-        // Generate recommendations
+        
         let recommendation = ""
         let severity = "info"
         
@@ -158,10 +158,10 @@ export async function POST(request: Request) {
       })
     )
 
-    // Sort routes by score (best first)
+    
     routeAnalysis.sort((a, b) => a.score - b.score)
     
-    // Generate time-based suggestions
+    
     const currentHour = new Date().getHours()
     const timeSuggestions = []
     
@@ -175,7 +175,7 @@ export async function POST(request: Request) {
       }
     }
 
-    // Generate route-specific suggestions
+    
     const routeSuggestions = []
     
     if (routeAnalysis.length > 1) {

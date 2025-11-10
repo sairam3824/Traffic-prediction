@@ -12,13 +12,13 @@ export async function POST(request: Request) {
     const supabase = await createClient()
     const body: AlertSubscription = await request.json()
 
-    // Validate input
+    
     if (!body.alertTypes || body.alertTypes.length === 0) {
       return NextResponse.json({ success: false, error: "Alert types are required" }, { status: 400 })
     }
 
-    // In production, store subscription in database
-    // For now, return success
+    
+    
     console.log("Alert subscription:", body)
 
     return NextResponse.json({

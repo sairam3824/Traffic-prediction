@@ -14,9 +14,9 @@ export async function GET(request: Request) {
       return NextResponse.json({ success: false, error: "API key not configured" }, { status: 500 })
     }
 
-    // Use Google Places API for location search
+    
     const response = await fetch(
-      `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(query)}&components=country:in&key=${apiKey}`,
+      `https:
     )
 
     const contentType = response.headers.get("content-type")
@@ -42,12 +42,12 @@ export async function GET(request: Request) {
       throw new Error(data.error_message || "Places API error")
     }
 
-    // Get place details for each prediction
+    
     const predictions = await Promise.all(
       data.predictions.slice(0, 5).map(async (prediction: any) => {
         try {
           const detailsResponse = await fetch(
-            `https://maps.googleapis.com/maps/api/place/details/json?place_id=${prediction.place_id}&fields=geometry,formatted_address&key=${apiKey}`,
+            `https:
           )
           const detailsData = await detailsResponse.json()
 

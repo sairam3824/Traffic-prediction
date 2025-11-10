@@ -27,12 +27,12 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  // Refresh session if expired - required for Server Components
+  
   const {
     data: { user },
   } = await supabase.auth.getUser()
 
-  // Protected routes
+  
   const protectedRoutes = ['/admin', '/monitoring', '/traffic-prediction', '/route-planner']
   const adminRoutes = ['/admin', '/monitoring']
   const authRoutes = ['/auth/signin', '/auth/signup']
@@ -47,14 +47,14 @@ export async function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith(route)
   )
 
-  // Redirect to signin if accessing protected route without authentication
+  
   if (isProtectedRoute && !user) {
     const redirectUrl = new URL('/auth/signin', request.url)
     redirectUrl.searchParams.set('redirectTo', request.nextUrl.pathname)
     return NextResponse.redirect(redirectUrl)
   }
 
-  // Check admin access
+  
   if (isAdminRoute && user) {
     const isAdmin = user.email === 'admin@traffic.com'
     if (!isAdmin) {
@@ -62,7 +62,7 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // Redirect authenticated users away from auth pages
+  
   if (isAuthRoute && user) {
     const isAdmin = user.email === 'admin@traffic.com'
     return NextResponse.redirect(new URL(isAdmin ? '/admin' : '/', request.url))
@@ -73,13 +73,7 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - api routes
-     */
+    
     '/((?!_next/static|_next/image|favicon.ico|api).*)',
   ],
 }

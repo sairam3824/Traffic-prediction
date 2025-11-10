@@ -1,8 +1,6 @@
 import { NextResponse } from "next/server"
 
-/**
- * Prometheus-compatible metrics endpoint
- */
+
 export async function GET() {
   const metrics = `
 # HELP traffic_api_requests_total Total number of API requests

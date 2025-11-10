@@ -11,14 +11,12 @@ export class AlertGenerationService {
     this.notificationService = new NotificationService()
   }
 
-  /**
-   * Check predictions and generate alerts
-   */
+  
   async checkPredictionsAndGenerateAlerts(): Promise<void> {
     try {
       const supabase = await createClient()
 
-      // Get all traffic segments
+      
       const { data: segments, error: segmentsError } = await supabase.from("traffic_segments").select("*")
 
       if (segmentsError || !segments) {
@@ -26,7 +24,7 @@ export class AlertGenerationService {
         return
       }
 
-      // Check each segment
+      
       for (const segment of segments) {
         await this.checkSegmentPredictions(segment)
       }
@@ -35,14 +33,12 @@ export class AlertGenerationService {
     }
   }
 
-  /**
-   * Check predictions for a specific segment
-   */
+  
   private async checkSegmentPredictions(segment: any): Promise<void> {
     try {
       const supabase = await createClient()
 
-      // Get latest predictions from LSTM model
+      
       const { data: predictions, error } = await supabase
         .from("predictions")
         .select("*")
@@ -57,14 +53,14 @@ export class AlertGenerationService {
 
       const prediction = predictions[0]
 
-      // Check if alert should be created
+      
       if (this.alertService.shouldCreateCongestionAlert(prediction.predicted_speed_kmh, prediction.predicted_volume)) {
         const severity = this.alertService.determineSeverity(
           prediction.predicted_speed_kmh,
           prediction.predicted_volume,
         )
 
-        // Check if alert already exists
+        
         const { data: existingAlerts } = await supabase
           .from("alerts")
           .select("*")
@@ -73,14 +69,14 @@ export class AlertGenerationService {
           .eq("alert_type", "congestion")
 
         if (!existingAlerts || existingAlerts.length === 0) {
-          // Create new alert
+          
           await this.alertService.createCongestionAlert(
             segment.id,
             prediction.predicted_speed_kmh,
             prediction.predicted_volume,
           )
 
-          // Send notification
+          
           const message = this.notificationService.formatAlertMessage(
             segment.segment_name,
             prediction.predicted_speed_kmh,
@@ -98,7 +94,7 @@ export class AlertGenerationService {
           })
         }
       } else {
-        // Resolve active alerts if conditions improve
+        
         const { data: activeAlerts } = await supabase
           .from("alerts")
           .select("*")
@@ -115,14 +111,12 @@ export class AlertGenerationService {
     }
   }
 
-  /**
-   * Check for incident-based alerts
-   */
+  
   async checkIncidentAlerts(): Promise<void> {
     try {
       const supabase = await createClient()
 
-      // Get recent events
+      
       const { data: events, error } = await supabase
         .from("events")
         .select("*")
@@ -133,7 +127,7 @@ export class AlertGenerationService {
         return
       }
 
-      // Create alerts for incidents
+      
       for (const event of events) {
         const { data: existingAlerts } = await supabase
           .from("alerts")
@@ -170,14 +164,12 @@ export class AlertGenerationService {
     }
   }
 
-  /**
-   * Check for weather-based alerts
-   */
+  
   async checkWeatherAlerts(): Promise<void> {
     try {
       const supabase = await createClient()
 
-      // Get latest weather data
+      
       const { data: weatherData, error } = await supabase
         .from("weather_data")
         .select("*")
@@ -190,7 +182,7 @@ export class AlertGenerationService {
 
       const weather = weatherData[0]
 
-      // Check for severe weather conditions
+      
       if (weather.weather_condition === "snowy" || weather.precipitation_mm > 10) {
         const { data: segments } = await supabase.from("traffic_segments").select("id")
 

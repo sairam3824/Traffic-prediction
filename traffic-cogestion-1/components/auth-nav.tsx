@@ -21,7 +21,7 @@ export default function AuthNav() {
 
     getUser()
 
-    // Listen for auth changes
+    
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         setUser(session?.user ?? null)

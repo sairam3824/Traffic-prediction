@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import { getRoutePredictions, createRoutePrediction, getRouteById } from "@/lib/db/routes"
 
-const FLASK_API_URL = process.env.FLASK_API_URL || "http://localhost:5000"
+const FLASK_API_URL = process.env.FLASK_API_URL || "http:
 
 export async function POST(request: Request) {
   try {
@@ -12,10 +12,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: "Missing parameters" }, { status: 400 })
     }
 
-    // Get existing predictions for this route
+    
     const existingPredictions = await getRoutePredictions(route_id)
 
-    // Check if prediction already exists for this time
+    
     const existingPrediction = existingPredictions.find(
       (p) => new Date(p.prediction_time).getTime() === new Date(prediction_time).getTime(),
     )
@@ -24,21 +24,21 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: true, data: existingPrediction })
     }
 
-    // Get route details
+    
     const route = await getRouteById(route_id)
     if (!route) {
       return NextResponse.json({ success: false, error: "Route not found" }, { status: 404 })
     }
 
-    // Call Flask UCS Model API for real prediction
-    // Sample 3 points along the route for more accurate prediction
+    
+    
     let congestionLevel = "low"
     let avgSpeed = 60
     let duration = route.duration_minutes || 30
     let confidence = 0.85
 
     try {
-      // Sample origin, midpoint, and destination
+      
       const samplePoints = [
         { lat: route.origin_lat, lng: route.origin_lng },
         { 
@@ -50,7 +50,7 @@ export async function POST(request: Request) {
 
       const predictions: number[] = []
       
-      // Get predictions for each sample point
+      
       for (const point of samplePoints) {
         try {
           const flaskResponse = await fetch(`${FLASK_API_URL}/api/predict`, {
@@ -61,7 +61,7 @@ export async function POST(request: Request) {
               longitude: point.lng,
               timestamp: prediction_time,
             }),
-            signal: AbortSignal.timeout(3000), // 3 second timeout per call
+            signal: AbortSignal.timeout(3000), 
           })
 
           if (flaskResponse.ok) {
@@ -69,15 +69,15 @@ export async function POST(request: Request) {
             predictions.push(flaskData.prediction)
           }
         } catch {
-          // Skip failed predictions
+          
         }
       }
 
       if (predictions.length > 0) {
-        // Average the predictions
+        
         const trafficPrediction = predictions.reduce((a, b) => a + b, 0) / predictions.length
 
-        // Convert traffic prediction to congestion level and speed
+        
         if (trafficPrediction >= 55) {
           congestionLevel = "high"
           avgSpeed = Math.max(15, Math.round(60 - trafficPrediction * 0.6))
@@ -92,12 +92,12 @@ export async function POST(request: Request) {
           duration = Math.round(route.duration_minutes * (0.9 + trafficPrediction / 200))
         }
         
-        confidence = 0.92 // Higher confidence for model predictions
+        confidence = 0.92 
       }
     } catch (flaskError) {
       console.warn("Flask API unavailable, using time-based fallback:", flaskError)
       
-      // Fallback: time-based prediction if Flask is unavailable
+      
       const predictionDate = new Date(prediction_time)
       const hour = predictionDate.getHours()
 
@@ -111,7 +111,7 @@ export async function POST(request: Request) {
         duration = Math.round(route.duration_minutes * 1.2)
       }
       
-      confidence = 0.65 // Lower confidence for fallback
+      confidence = 0.65 
     }
 
     const prediction = {

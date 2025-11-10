@@ -1,7 +1,4 @@
-/**
- * Interactive Traffic Map - Pure JavaScript Implementation
- * Integrated with UCS Model for AI-powered traffic predictions
- */
+
 
 class TrafficMap {
   constructor(mapElementId, config = {}) {
@@ -11,7 +8,7 @@ class TrafficMap {
     this.trafficLayer = null;
     this.selectedSegment = null;
     this.config = {
-      center: config.center || { lat: 16.5062, lng: 80.6480 }, // Vijayawada, India
+      center: config.center || { lat: 16.5062, lng: 80.6480 }, 
       zoom: config.zoom || 12,
       apiKey: config.apiKey || '',
       ...config
@@ -20,17 +17,15 @@ class TrafficMap {
     this.init();
   }
 
-  /**
-   * Initialize the map
-   */
+  
   async init() {
     try {
-      // Load Google Maps API
+      
       if (!window.google || !window.google.maps) {
         await this.loadGoogleMapsAPI();
       }
       
-      // Create map instance
+      
       this.map = new google.maps.Map(this.mapElement, {
         center: this.config.center,
         zoom: this.config.zoom,
@@ -48,7 +43,7 @@ class TrafficMap {
         styles: this.getMapStyles()
       });
 
-      // Initialize traffic layer
+      
       this.trafficLayer = new google.maps.TrafficLayer();
       this.trafficLayer.setMap(this.map);
       
@@ -60,9 +55,7 @@ class TrafficMap {
     }
   }
 
-  /**
-   * Load Google Maps API dynamically
-   */
+  
   loadGoogleMapsAPI() {
     return new Promise((resolve, reject) => {
       if (window.google && window.google.maps) {
@@ -71,7 +64,7 @@ class TrafficMap {
       }
 
       const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${this.config.apiKey}&libraries=visualization`;
+      script.src = `https:
       script.async = true;
       script.defer = true;
       script.onload = () => resolve();
@@ -80,9 +73,7 @@ class TrafficMap {
     });
   }
 
-  /**
-   * Add a marker to the map
-   */
+  
   addMarker(lat, lng, options = {}) {
     const marker = new google.maps.Marker({
       position: { lat, lng },
@@ -92,7 +83,7 @@ class TrafficMap {
       ...options
     });
 
-    // Add click listener
+    
     if (options.onClick) {
       marker.addListener('click', () => options.onClick(marker));
     }
@@ -101,12 +92,10 @@ class TrafficMap {
     return marker;
   }
 
-  /**
-   * Add traffic segment with prediction
-   */
+  
   async addTrafficSegment(segment) {
     try {
-      // Get prediction from UCS model
+      
       const prediction = await this.getPrediction(segment.latitude, segment.longitude);
       
       const marker = this.addMarker(segment.latitude, segment.longitude, {
@@ -123,9 +112,7 @@ class TrafficMap {
     }
   }
 
-  /**
-   * Get prediction from UCS model
-   */
+  
   async getPrediction(lat, lng, timestamp = null) {
     try {
       const response = await fetch('/api/ucs-predict', {
@@ -149,9 +136,7 @@ class TrafficMap {
     }
   }
 
-  /**
-   * Handle segment click
-   */
+  
   onSegmentClick(segment, prediction) {
     this.selectedSegment = segment;
     
@@ -165,9 +150,7 @@ class TrafficMap {
     this.emit('segmentSelected', { segment, prediction });
   }
 
-  /**
-   * Create info window content
-   */
+  
   createInfoWindowContent(segment, prediction) {
     const trafficColor = this.getTrafficColor(prediction.traffic_level);
     return `
@@ -186,9 +169,7 @@ class TrafficMap {
     `;
   }
 
-  /**
-   * Draw route on map
-   */
+  
   drawRoute(polyline, options = {}) {
     const path = google.maps.geometry.encoding.decodePath(polyline);
     
@@ -204,9 +185,7 @@ class TrafficMap {
     return route;
   }
 
-  /**
-   * Get route predictions
-   */
+  
   async getRoutePredictions(waypoints) {
     try {
       const response = await fetch('/api/ucs-predict-route', {
@@ -226,26 +205,20 @@ class TrafficMap {
     }
   }
 
-  /**
-   * Toggle traffic layer
-   */
+  
   toggleTrafficLayer(show = true) {
     if (this.trafficLayer) {
       this.trafficLayer.setMap(show ? this.map : null);
     }
   }
 
-  /**
-   * Clear all markers
-   */
+  
   clearMarkers() {
     this.markers.forEach(marker => marker.setMap(null));
     this.markers = [];
   }
 
-  /**
-   * Get marker icon based on traffic level
-   */
+  
   getMarkerIcon(trafficLevel) {
     const colors = {
       low: '#10b981',
@@ -264,9 +237,7 @@ class TrafficMap {
     };
   }
 
-  /**
-   * Get traffic color
-   */
+  
   getTrafficColor(trafficLevel) {
     const colors = {
       low: '#10b981',
@@ -277,9 +248,7 @@ class TrafficMap {
     return colors[trafficLevel] || colors.unknown;
   }
 
-  /**
-   * Get custom map styles
-   */
+  
   getMapStyles() {
     return [
       {
@@ -290,9 +259,7 @@ class TrafficMap {
     ];
   }
 
-  /**
-   * Event emitter
-   */
+  
   emit(eventName, data) {
     if (this.config.onEvent) {
       this.config.onEvent(eventName, data);
@@ -302,17 +269,13 @@ class TrafficMap {
     document.dispatchEvent(event);
   }
 
-  /**
-   * Recenter map
-   */
+  
   recenter(lat, lng, zoom) {
     this.map.setCenter({ lat, lng });
     if (zoom) this.map.setZoom(zoom);
   }
 
-  /**
-   * Destroy map instance
-   */
+  
   destroy() {
     this.clearMarkers();
     if (this.trafficLayer) {
@@ -322,7 +285,7 @@ class TrafficMap {
   }
 }
 
-// Export for use in modules or global scope
+
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = TrafficMap;
 } else {

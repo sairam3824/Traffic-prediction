@@ -5,14 +5,14 @@ export async function GET() {
   try {
     const supabase = await createClient()
     
-    // Get the current user
+    
     const { data: { user }, error: userError } = await supabase.auth.getUser()
     
     if (userError || !user) {
       return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 })
     }
 
-    // Fetch user's search history
+    
     const { data, error } = await supabase
       .from("user_search_history")
       .select("*")
@@ -22,7 +22,7 @@ export async function GET() {
 
     if (error) {
       console.error("Error fetching search history:", error)
-      // If table doesn't exist, return empty array instead of error
+      
       if (error.code === 'PGRST116' || error.code === 'PGRST205' || 
           error.message?.includes('does not exist') || 
           error.message?.includes('user_search_history') ||
@@ -37,7 +37,7 @@ export async function GET() {
       return NextResponse.json({ success: false, error: "Failed to fetch search history" }, { status: 500 })
     }
 
-    // Transform data to match the frontend format
+    
     const searchHistory = data.map(item => ({
       id: `${item.origin_place_id}-${item.destination_place_id}`,
       origin: {
@@ -71,7 +71,7 @@ export async function POST(request: Request) {
   try {
     const supabase = await createClient()
     
-    // Get the current user
+    
     const { data: { user }, error: userError } = await supabase.auth.getUser()
     
     if (userError || !user) {
@@ -85,7 +85,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: "Origin and destination are required" }, { status: 400 })
     }
 
-    // Check if this search already exists
+    
     const { data: existing, error: existingError } = await supabase
       .from("user_search_history")
       .select("*")
@@ -94,13 +94,13 @@ export async function POST(request: Request) {
       .eq("destination_place_id", destination.place_id)
       .single()
 
-    if (existingError && existingError.code !== 'PGRST116') { // PGRST116 = no rows found
+    if (existingError && existingError.code !== 'PGRST116') { 
       console.error("Error checking existing search:", existingError)
       return NextResponse.json({ success: false, error: "Database error" }, { status: 500 })
     }
 
     if (existing) {
-      // Update existing search
+      
       const { data, error } = await supabase
         .from("user_search_history")
         .update({
@@ -113,7 +113,7 @@ export async function POST(request: Request) {
 
       if (error) {
         console.error("Error updating search history:", error)
-        // If table doesn't exist, return success but don't save
+        
         if (error.message?.includes('does not exist') || error.message?.includes('user_search_history')) {
           return NextResponse.json({ success: true, data: null, message: "Table not created yet" })
         }
@@ -122,7 +122,7 @@ export async function POST(request: Request) {
 
       return NextResponse.json({ success: true, data })
     } else {
-      // Create new search history entry
+      
       const { data, error } = await supabase
         .from("user_search_history")
         .insert({
@@ -147,7 +147,7 @@ export async function POST(request: Request) {
 
       if (error) {
         console.error("Error creating search history:", error)
-        // If table doesn't exist, return success but indicate table needs creation
+        
         if (error.code === 'PGRST205' || 
             error.message?.includes('does not exist') || 
             error.message?.includes('user_search_history') ||
@@ -173,7 +173,7 @@ export async function DELETE(request: Request) {
   try {
     const supabase = await createClient()
     
-    // Get the current user
+    
     const { data: { user }, error: userError } = await supabase.auth.getUser()
     
     if (userError || !user) {
@@ -184,7 +184,7 @@ export async function DELETE(request: Request) {
     const searchId = searchParams.get("id")
 
     if (searchId === "all") {
-      // Delete all search history for the user
+      
       const { error } = await supabase
         .from("user_search_history")
         .delete()
@@ -197,7 +197,7 @@ export async function DELETE(request: Request) {
 
       return NextResponse.json({ success: true, message: "All search history deleted" })
     } else if (searchId) {
-      // Delete specific search history item
+      
       const [originPlaceId, destinationPlaceId] = searchId.split("-")
       
       const { error } = await supabase

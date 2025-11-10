@@ -34,7 +34,7 @@ export default function CongestionForecast({ routeId }: CongestionForecastProps)
       if (selectedDate !== null) setSelectedDate(null)
       return
     }
-    // Enforce bounds
+    
     if (d < now) {
       if (!selectedDate || selectedDate.getTime() !== now.getTime()) setSelectedDate(now)
       return
@@ -51,10 +51,10 @@ export default function CongestionForecast({ routeId }: CongestionForecastProps)
       setLoading(true)
       const forecastData: ForecastData[] = []
       
-      // Use selected local date/time, send to API as UTC ISO
+      
       const baseTimeUTC = selectedDate ?? new Date()
 
-      // Generate predictions for next 60 minutes in 10-minute intervals
+      
       for (let minutes = 0; minutes <= 360; minutes += 10) {
         const forecastTime = new Date(baseTimeUTC.getTime() + minutes * 60 * 1000)
 
@@ -113,13 +113,13 @@ export default function CongestionForecast({ routeId }: CongestionForecastProps)
         <CardDescription>Real-time UCS AI model predictions for next 6 hours</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        {/* Time Selector */}
+        {}
         <div className="flex items-center gap-2">
           <DateTimePicker value={selectedDate} min={now} max={maxDate} onChange={handleDateChange} />
           <span className="text-xs text-muted-foreground">(Max: 1 week ahead)</span>
         </div>
 
-        {/* Forecast Chart */}
+        {}
         {forecasts.length > 0 ? (
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={forecasts}>
@@ -155,7 +155,7 @@ export default function CongestionForecast({ routeId }: CongestionForecastProps)
           </div>
         )}
 
-        {/* Congestion Summary */}
+        {}
         <div className="grid grid-cols-3 gap-2">
           {forecasts.slice(0, 3).map((forecast, idx) => (
             <div key={idx} className="bg-muted rounded-lg p-3 text-center">

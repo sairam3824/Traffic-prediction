@@ -26,7 +26,7 @@ export default function CongestionDistribution() {
       const result = await response.json()
 
       if (result.success && result.data) {
-        // Analyze traffic data from the last 24 hours
+        
         const now = new Date()
         const last24Hours = new Date(now.getTime() - 24 * 60 * 60 * 1000)
 
@@ -34,7 +34,7 @@ export default function CongestionDistribution() {
           new Date(obs.timestamp) >= last24Hours
         )
 
-        // Count observations by congestion level
+        
         let lowCount = 0
         let moderateCount = 0
         let heavyCount = 0
@@ -49,7 +49,7 @@ export default function CongestionDistribution() {
             else lowCount++
           })
         } else {
-          // Generate realistic distribution if no data
+          
           const hourlyData = generateRealisticDistribution()
           lowCount = hourlyData.low
           moderateCount = hourlyData.moderate
@@ -96,7 +96,7 @@ export default function CongestionDistribution() {
       }
     } catch (error) {
       console.error("Error fetching congestion distribution:", error)
-      // Set default distribution on error
+      
       const defaultDistribution = generateRealisticDistribution()
       const total = defaultDistribution.low + defaultDistribution.moderate + 
                     defaultDistribution.heavy + defaultDistribution.severe
@@ -138,19 +138,19 @@ export default function CongestionDistribution() {
   }
 
   const generateRealisticDistribution = () => {
-    // Realistic distribution: more moderate/low, less severe
+    
     return {
-      low: 8 + Math.floor(Math.random() * 4),      // 8-11 hours
-      moderate: 7 + Math.floor(Math.random() * 3),  // 7-9 hours
-      heavy: 4 + Math.floor(Math.random() * 3),     // 4-6 hours
-      severe: 2 + Math.floor(Math.random() * 2)     // 2-3 hours
+      low: 8 + Math.floor(Math.random() * 4),      
+      moderate: 7 + Math.floor(Math.random() * 3),  
+      heavy: 4 + Math.floor(Math.random() * 3),     
+      severe: 2 + Math.floor(Math.random() * 2)     
     }
   }
 
   useEffect(() => {
     fetchCongestionDistribution()
     
-    // Update every 5 minutes
+    
     const interval = setInterval(fetchCongestionDistribution, 5 * 60 * 1000)
     return () => clearInterval(interval)
   }, [])
@@ -182,7 +182,7 @@ export default function CongestionDistribution() {
     const x = cx + radius * Math.cos(-midAngle * RADIAN)
     const y = cy + radius * Math.sin(-midAngle * RADIAN)
 
-    if (percentage < 5) return null // Don't show label for small slices
+    if (percentage < 5) return null 
 
     return (
       <text
@@ -240,7 +240,7 @@ export default function CongestionDistribution() {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          {/* Donut Chart */}
+          {}
           <div className="h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -265,13 +265,13 @@ export default function CongestionDistribution() {
             </ResponsiveContainer>
           </div>
 
-          {/* Center Text Overlay */}
+          {}
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none">
             <p className="text-3xl font-bold text-foreground">{totalHours}h</p>
             <p className="text-xs text-muted-foreground">Total Time</p>
           </div>
 
-          {/* Detailed Breakdown */}
+          {}
           <div className="space-y-2 pt-2 border-t border-border/50">
             {distributionData.map((item) => (
               <div key={item.name} className="flex items-center justify-between">
@@ -294,7 +294,7 @@ export default function CongestionDistribution() {
             ))}
           </div>
 
-          {/* Traffic Health Summary */}
+          {}
           <div className="pt-3 border-t border-border/50">
             <div className="flex items-center justify-between">
               <div>
@@ -319,7 +319,7 @@ export default function CongestionDistribution() {
             </p>
           </div>
 
-          {/* Quick Insights */}
+          {}
           <div className="grid grid-cols-2 gap-3 pt-3 border-t border-border/50">
             <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-3">
               <p className="text-xs text-muted-foreground">Best Conditions</p>

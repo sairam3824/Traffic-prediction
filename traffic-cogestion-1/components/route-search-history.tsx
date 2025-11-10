@@ -33,16 +33,16 @@ export default function RouteSearchHistory({ onHistorySelect, onRegisterSave }: 
   const [user, setUser] = useState<any>(null)
   const supabase = createClient()
 
-  // Get user and load history
+  
   useEffect(() => {
     const initializeHistory = async () => {
       try {
-        // Get current user first
+        
         const { data: { user } } = await supabase.auth.getUser()
         setUser(user)
 
         if (user) {
-          // For authenticated users, prioritize Supabase
+          
           console.log('User authenticated, loading from Supabase...')
           try {
             await loadHistoryFromDatabase()
@@ -51,7 +51,7 @@ export default function RouteSearchHistory({ onHistorySelect, onRegisterSave }: 
             loadHistoryFromLocalStorage()
           }
         } else {
-          // For unauthenticated users, use localStorage
+          
           console.log('User not authenticated, using localStorage')
           loadHistoryFromLocalStorage()
         }
@@ -65,7 +65,7 @@ export default function RouteSearchHistory({ onHistorySelect, onRegisterSave }: 
 
     initializeHistory()
 
-    // Listen for auth changes
+    
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         const newUser = session?.user ?? null
@@ -89,7 +89,7 @@ export default function RouteSearchHistory({ onHistorySelect, onRegisterSave }: 
     return () => subscription.unsubscribe()
   }, [supabase])
 
-  // Load history from database
+  
   const loadHistoryFromDatabase = async () => {
     try {
       const response = await fetch('/api/user/search-history')
@@ -98,7 +98,7 @@ export default function RouteSearchHistory({ onHistorySelect, onRegisterSave }: 
       if (result.success) {
         setHistory(result.data || [])
       } else {
-        // If table doesn't exist, fall back to localStorage
+        
         console.log('Database table not ready, using localStorage')
         loadHistoryFromLocalStorage()
       }
@@ -108,7 +108,7 @@ export default function RouteSearchHistory({ onHistorySelect, onRegisterSave }: 
     }
   }
 
-  // Load history from localStorage (fallback)
+  
   const loadHistoryFromLocalStorage = () => {
     try {
       const savedHistory = localStorage.getItem('route-search-history')
@@ -117,7 +117,7 @@ export default function RouteSearchHistory({ onHistorySelect, onRegisterSave }: 
         console.log('Loaded from localStorage:', parsed)
         setHistory(parsed)
       } else {
-        // Add some sample history for demonstration
+        
         const sampleHistory: SearchHistoryItem[] = [
           {
             id: 'sample-1',
@@ -137,7 +137,7 @@ export default function RouteSearchHistory({ onHistorySelect, onRegisterSave }: 
               lat: 16.3067,
               lng: 80.4365
             },
-            timestamp: Date.now() - 15 * 60 * 1000, // 15 minutes ago
+            timestamp: Date.now() - 15 * 60 * 1000, 
             searchCount: 3
           },
           {
@@ -158,7 +158,7 @@ export default function RouteSearchHistory({ onHistorySelect, onRegisterSave }: 
               lat: 16.5062,
               lng: 80.648
             },
-            timestamp: Date.now() - 3 * 60 * 60 * 1000, // 3 hours ago
+            timestamp: Date.now() - 3 * 60 * 60 * 1000, 
             searchCount: 1
           }
         ]
@@ -172,12 +172,12 @@ export default function RouteSearchHistory({ onHistorySelect, onRegisterSave }: 
     }
   }
 
-  // Save a new search to history
+  
   const saveToHistory = async (origin: LocationPrediction, destination: LocationPrediction) => {
     console.log('Saving search to history:', { origin: origin.main_text, destination: destination.main_text, user: !!user })
     
     if (user) {
-      // For authenticated users, prioritize Supabase
+      
       try {
         console.log('Attempting to save to Supabase...')
         const response = await fetch('/api/user/search-history', {
@@ -192,7 +192,7 @@ export default function RouteSearchHistory({ onHistorySelect, onRegisterSave }: 
         
         if (response.ok && result.success) {
           console.log('✅ Saved to Supabase successfully')
-          // Reload history from database to get updated data
+          
           await loadHistoryFromDatabase()
         } else {
           console.log('❌ Supabase save failed, using localStorage fallback')
@@ -204,13 +204,13 @@ export default function RouteSearchHistory({ onHistorySelect, onRegisterSave }: 
         saveToLocalStorage(origin, destination)
       }
     } else {
-      // For unauthenticated users, use localStorage
+      
       console.log('User not authenticated, saving to localStorage')
       saveToLocalStorage(origin, destination)
     }
   }
 
-  // Save to localStorage (fallback)
+  
   const saveToLocalStorage = (origin: LocationPrediction, destination: LocationPrediction) => {
     try {
       const searchKey = `${origin.place_id}-${destination.place_id}`
@@ -246,7 +246,7 @@ export default function RouteSearchHistory({ onHistorySelect, onRegisterSave }: 
 
         newHistory = newHistory.slice(0, 10)
         
-        // Save to localStorage immediately
+        
         try {
           localStorage.setItem('route-search-history', JSON.stringify(newHistory))
           console.log('Saved to localStorage:', newHistory)
@@ -261,7 +261,7 @@ export default function RouteSearchHistory({ onHistorySelect, onRegisterSave }: 
     }
   }
 
-  // Remove a specific item from history
+  
   const removeFromHistory = async (id: string) => {
     if (user) {
       try {
@@ -286,7 +286,7 @@ export default function RouteSearchHistory({ onHistorySelect, onRegisterSave }: 
     }
   }
 
-  // Clear all history
+  
   const clearHistory = async () => {
     if (user) {
       try {
@@ -308,14 +308,14 @@ export default function RouteSearchHistory({ onHistorySelect, onRegisterSave }: 
     }
   }
 
-  // Handle clicking on a history item
+  
   const handleHistoryClick = (item: SearchHistoryItem) => {
     onHistorySelect(item.origin, item.destination)
-    // Update the search count and timestamp
+    
     saveToHistory(item.origin, item.destination)
   }
 
-  // Format timestamp for display
+  
   const formatTimestamp = (timestamp: number) => {
     const now = Date.now()
     const diff = now - timestamp
@@ -324,7 +324,7 @@ export default function RouteSearchHistory({ onHistorySelect, onRegisterSave }: 
     const hours = Math.floor(diff / (1000 * 60 * 60))
     const days = Math.floor(diff / (1000 * 60 * 60 * 24))
 
-    // More precise time formatting
+    
     if (seconds < 30) return 'Just now'
     if (seconds < 60) return 'Less than a minute ago'
     if (minutes === 1) return '1 minute ago'
@@ -335,11 +335,11 @@ export default function RouteSearchHistory({ onHistorySelect, onRegisterSave }: 
     if (days < 7) return `${days} days ago`
     if (days < 30) return `${Math.floor(days / 7)} week${Math.floor(days / 7) > 1 ? 's' : ''} ago`
     
-    // For older dates, show the actual date
+    
     const date = new Date(timestamp)
     const today = new Date()
     
-    // If it's this year, don't show the year
+    
     if (date.getFullYear() === today.getFullYear()) {
       return date.toLocaleDateString('en-US', { 
         month: 'short', 
@@ -347,7 +347,7 @@ export default function RouteSearchHistory({ onHistorySelect, onRegisterSave }: 
       })
     }
     
-    // If it's a different year, show the full date
+    
     return date.toLocaleDateString('en-US', { 
       month: 'short', 
       day: 'numeric', 
@@ -355,12 +355,12 @@ export default function RouteSearchHistory({ onHistorySelect, onRegisterSave }: 
     })
   }
 
-  // Register saveToHistory function with parent component
+  
   useEffect(() => {
     if (onRegisterSave) {
       onRegisterSave(saveToHistory)
     }
-  }, [onRegisterSave, user]) // Re-register when user changes
+  }, [onRegisterSave, user]) 
 
   if (history.length === 0) {
     return (
@@ -416,7 +416,7 @@ export default function RouteSearchHistory({ onHistorySelect, onRegisterSave }: 
             </button>
 
             <div className="space-y-2 pr-6">
-              {/* Origin */}
+              {}
               <div className="flex items-center gap-2 text-sm">
                 <MapPin className="w-3 h-3 text-green-500 flex-shrink-0" />
                 <span className="text-foreground font-medium truncate">
@@ -424,7 +424,7 @@ export default function RouteSearchHistory({ onHistorySelect, onRegisterSave }: 
                 </span>
               </div>
 
-              {/* Destination */}
+              {}
               <div className="flex items-center gap-2 text-sm">
                 <MapPin className="w-3 h-3 text-red-500 flex-shrink-0" />
                 <span className="text-foreground font-medium truncate">
@@ -432,7 +432,7 @@ export default function RouteSearchHistory({ onHistorySelect, onRegisterSave }: 
                 </span>
               </div>
 
-              {/* Metadata */}
+              {}
               <div className="flex items-center justify-between text-xs text-muted-foreground">
                 <span>{formatTimestamp(item.timestamp)}</span>
                 {item.searchCount > 1 && (

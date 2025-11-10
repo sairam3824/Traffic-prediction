@@ -13,7 +13,7 @@ export async function GET() {
 
     if (error) throw error
 
-    // Group by model type and get latest metrics
+    
     const metrics: Record<string, any> = {}
     ;(data || []).forEach((row: any) => {
       if (!metrics[row.model_type]) {

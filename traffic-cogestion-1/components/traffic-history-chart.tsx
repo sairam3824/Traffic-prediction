@@ -26,11 +26,11 @@ export default function TrafficHistoryChart() {
       const result = await response.json()
 
       if (result.success && result.data) {
-        // Process data for the last 10 hours
+        
         const now = new Date()
         const tenHoursAgo = new Date(now.getTime() - 10 * 60 * 60 * 1000)
 
-        // Filter and group data by hour
+        
         const hourlyData: { [key: string]: any[] } = {}
         
         result.data
@@ -45,10 +45,10 @@ export default function TrafficHistoryChart() {
             hourlyData[hourKey].push(obs)
           })
 
-        // Calculate averages for each hour (last 10 hours + next 2 hours)
+        
         const chartData: TrafficDataPoint[] = []
         
-        // Historical data (last 10 hours)
+        
         for (let i = 9; i >= 0; i--) {
           const hourTime = new Date(now.getTime() - i * 60 * 60 * 1000)
           const hourKey = hourTime.toISOString().slice(0, 13) + ":00:00.000Z"
@@ -63,25 +63,25 @@ export default function TrafficHistoryChart() {
             avgVolume = hourData.reduce((sum, obs) => sum + obs.volume_vehicles, 0) / hourData.length
             congestion = hourData.reduce((sum, obs) => sum + obs.occupancy_percent, 0) / hourData.length
           } else {
-            // Generate realistic data based on time of day
+            
             const hour = hourTime.getHours()
             if ((hour >= 7 && hour <= 9) || (hour >= 17 && hour <= 19)) {
-              // Peak hours
+              
               avgSpeed = 25 + Math.random() * 15
               avgVolume = 70 + Math.random() * 25
               congestion = 65 + Math.random() * 25
             } else if (hour >= 10 && hour <= 16) {
-              // Business hours
+              
               avgSpeed = 35 + Math.random() * 20
               avgVolume = 40 + Math.random() * 25
               congestion = 40 + Math.random() * 20
             } else if (hour >= 22 || hour <= 5) {
-              // Night hours
+              
               avgSpeed = 55 + Math.random() * 20
               avgVolume = 10 + Math.random() * 15
               congestion = 15 + Math.random() * 15
             } else {
-              // Regular hours
+              
               avgSpeed = 45 + Math.random() * 15
               avgVolume = 30 + Math.random() * 20
               congestion = 35 + Math.random() * 15
@@ -108,32 +108,32 @@ export default function TrafficHistoryChart() {
           })
         }
 
-        // Predicted data (next 2 hours)
+        
         for (let i = 1; i <= 2; i++) {
           const futureTime = new Date(now.getTime() + i * 60 * 60 * 1000)
           const hour = futureTime.getHours()
           
-          // Generate predictions based on typical patterns and current trends
+          
           let predictedSpeed = 45
           let predictedVolume = 30
           let predictedCongestion = 30
 
-          // Use current hour's data as baseline for prediction
+          
           const currentHourData = chartData[chartData.length - 1]
           if (currentHourData) {
-            // Apply trend-based prediction
+            
             if ((hour >= 7 && hour <= 9) || (hour >= 17 && hour <= 19)) {
-              // Approaching or in peak hours
+              
               predictedCongestion = Math.min(85, currentHourData.congestion * 1.2 + 10)
               predictedSpeed = Math.max(20, currentHourData.speed * 0.8)
               predictedVolume = Math.min(100, currentHourData.volume * 1.3)
             } else if (hour >= 22 || hour <= 5) {
-              // Night hours - traffic should decrease
+              
               predictedCongestion = Math.max(10, currentHourData.congestion * 0.6)
               predictedSpeed = Math.min(70, currentHourData.speed * 1.3)
               predictedVolume = Math.max(5, currentHourData.volume * 0.5)
             } else {
-              // Regular hours - gradual change
+              
               predictedCongestion = currentHourData.congestion + (Math.random() - 0.5) * 10
               predictedSpeed = currentHourData.speed + (Math.random() - 0.5) * 10
               predictedVolume = currentHourData.volume + (Math.random() - 0.5) * 15
@@ -173,7 +173,7 @@ export default function TrafficHistoryChart() {
   useEffect(() => {
     fetchTrafficHistory()
     
-    // Update every 5 minutes
+    
     const interval = setInterval(fetchTrafficHistory, 5 * 60 * 1000)
     return () => clearInterval(interval)
   }, [])
@@ -269,7 +269,7 @@ export default function TrafficHistoryChart() {
               />
               <Tooltip content={<CustomTooltip />} />
               
-              {/* Historical Data Area */}
+              {}
               <Area
                 type="monotone"
                 dataKey={(entry: TrafficDataPoint) => !entry.isPrediction ? entry.congestion : null}
@@ -279,7 +279,7 @@ export default function TrafficHistoryChart() {
                 connectNulls={false}
               />
               
-              {/* Predicted Data Line */}
+              {}
               <Line
                 type="monotone"
                 dataKey={(entry: TrafficDataPoint) => entry.isPrediction ? entry.congestion : null}
@@ -290,7 +290,7 @@ export default function TrafficHistoryChart() {
                 connectNulls={false}
               />
               
-              {/* Connection line between historical and predicted */}
+              {}
               <Line
                 type="monotone"
                 dataKey="congestion"
@@ -303,7 +303,7 @@ export default function TrafficHistoryChart() {
           </ResponsiveContainer>
         </div>
         
-        {/* Data Type Legend */}
+        {}
         <div className="flex justify-center gap-8 mt-4 mb-4 text-sm">
           <div className="flex items-center gap-2">
             <div className="w-4 h-3 bg-blue-500/30 border-l-2 border-blue-500"></div>
@@ -315,7 +315,7 @@ export default function TrafficHistoryChart() {
           </div>
         </div>
 
-        {/* Traffic Level Indicators */}
+        {}
         <div className="flex justify-center gap-6 mt-4 text-sm">
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 bg-green-500 rounded-full"></div>
@@ -335,7 +335,7 @@ export default function TrafficHistoryChart() {
           </div>
         </div>
 
-        {/* Summary Stats */}
+        {}
         <div className="grid grid-cols-3 gap-4 mt-4 pt-4 border-t border-border">
           <div className="text-center">
             <p className="text-2xl font-bold text-foreground">

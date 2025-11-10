@@ -20,7 +20,7 @@ export default function ModelComparison({ segmentId }: ModelComparisonProps) {
         if (result.success && result.data) {
           const { lstm, gnn, cnn_gru } = result.data
 
-          // Combine predictions for comparison
+          
           const comparisonData = lstm.slice(0, 12).map((pred: any, idx: number) => ({
             time: new Date(pred.prediction_timestamp).getHours() + ":00",
             lstm: pred.predicted_speed_kmh,

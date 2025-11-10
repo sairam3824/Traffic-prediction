@@ -29,7 +29,7 @@ export default function AlertsPanel({ selectedSegment }: AlertsPanelProps) {
 
     fetchAlerts()
     
-    // Refresh alerts every 30 seconds
+    
     const interval = setInterval(fetchAlerts, 30000)
     return () => clearInterval(interval)
   }, [])

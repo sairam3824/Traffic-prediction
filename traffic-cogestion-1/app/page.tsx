@@ -7,7 +7,7 @@ export default function HomePage() {
   const router = useRouter()
 
   useEffect(() => {
-    // Redirect to traffic prediction page
+    
     router.push("/traffic-prediction")
   }, [router])
 

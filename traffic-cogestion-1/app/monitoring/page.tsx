@@ -34,7 +34,7 @@ export default function MonitoringPage() {
         const healthData = await healthRes.json()
         setHealth(healthData)
 
-        // Parse Prometheus metrics
+        
         const metricsText = await metricsRes.text()
         const parsedMetrics = parsePrometheusMetrics(metricsText)
         setMetrics(parsedMetrics)
@@ -47,7 +47,7 @@ export default function MonitoringPage() {
     }
 
     fetchMonitoringData()
-    const interval = setInterval(fetchMonitoringData, 30000) // Refresh every 30 seconds
+    const interval = setInterval(fetchMonitoringData, 30000) 
 
     return () => clearInterval(interval)
   }, [])
@@ -99,7 +99,7 @@ export default function MonitoringPage() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-6">
       <div className="max-w-7xl mx-auto space-y-6">
-        {/* Header */}
+        {}
         <div className="space-y-2">
           <h1 className="text-4xl font-bold text-white">System Monitoring</h1>
           <p className="text-slate-400">
@@ -108,7 +108,7 @@ export default function MonitoringPage() {
           </p>
         </div>
 
-        {/* Health Status */}
+        {}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Card className="border-slate-700 bg-slate-900/50 backdrop-blur">
             <CardHeader className="pb-3">
@@ -160,9 +160,9 @@ export default function MonitoringPage() {
           </Card>
         </div>
 
-        {/* Charts */}
+        {}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* API Requests */}
+          {}
           <Card className="border-slate-700 bg-slate-900/50 backdrop-blur">
             <CardHeader>
               <CardTitle className="text-white">API Request Volume</CardTitle>
@@ -185,7 +185,7 @@ export default function MonitoringPage() {
             </CardContent>
           </Card>
 
-          {/* Model Accuracy */}
+          {}
           <Card className="border-slate-700 bg-slate-900/50 backdrop-blur">
             <CardHeader>
               <CardTitle className="text-white">Model Accuracy</CardTitle>
@@ -209,7 +209,7 @@ export default function MonitoringPage() {
           </Card>
         </div>
 
-        {/* Latency Distribution */}
+        {}
         <Card className="border-slate-700 bg-slate-900/50 backdrop-blur">
           <CardHeader>
             <CardTitle className="text-white">Prediction Latency Distribution</CardTitle>
@@ -232,7 +232,7 @@ export default function MonitoringPage() {
           </CardContent>
         </Card>
 
-        {/* System Checks */}
+        {}
         <Card className="border-slate-700 bg-slate-900/50 backdrop-blur">
           <CardHeader>
             <CardTitle className="text-white">System Checks</CardTitle>

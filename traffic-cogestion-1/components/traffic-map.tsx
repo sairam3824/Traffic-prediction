@@ -161,7 +161,7 @@ export default function TrafficMap({ segments, selectedSegment, onSelectSegment,
         </button>
       </div>
 
-      {/* Legend */}
+      {}
       <div className="flex gap-4 text-sm">
         <div className="flex items-center gap-2">
           <div className="flex items-center justify-center w-6 h-4 rounded bg-green-500/20 border border-green-500/30">

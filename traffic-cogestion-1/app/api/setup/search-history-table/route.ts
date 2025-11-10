@@ -5,19 +5,19 @@ export async function POST() {
   try {
     const supabase = await createClient()
     
-    // Get the current user
+    
     const { data: { user }, error: userError } = await supabase.auth.getUser()
     
     if (userError || !user) {
       return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 })
     }
 
-    // Check if user is admin
+    
     if (user.email !== 'admin@traffic.com') {
       return NextResponse.json({ success: false, error: "Admin access required" }, { status: 403 })
     }
 
-    // Create the table using raw SQL
+    
     const createTableSQL = `
       -- Create user search history table
       CREATE TABLE IF NOT EXISTS public.user_search_history (
@@ -61,7 +61,7 @@ export async function POST() {
       }, { status: 500 })
     }
 
-    // Create policies
+    
     const policiesSQL = `
       -- Drop existing policies if they exist
       DROP POLICY IF EXISTS "Users can view own search history" ON public.user_search_history;
@@ -87,7 +87,7 @@ export async function POST() {
 
     if (policyError) {
       console.error("Error creating policies:", policyError)
-      // Don't fail if policies can't be created, table creation is more important
+      
     }
 
     return NextResponse.json({ 

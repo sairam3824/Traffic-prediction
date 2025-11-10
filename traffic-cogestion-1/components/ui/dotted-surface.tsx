@@ -27,7 +27,7 @@ export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
       const AMOUNTX = 40;
       const AMOUNTY = 60;
 
-    // Scene setup
+    
     const scene = new THREE.Scene();
     scene.fog = new THREE.Fog(0xffffff, 2000, 10000);
 
@@ -49,18 +49,18 @@ export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
 
     containerRef.current.appendChild(renderer.domElement);
 
-    // Create particles
+    
     const particles: THREE.Points[] = [];
     const positions: number[] = [];
     const colors: number[] = [];
 
-    // Create geometry for all particles
+    
     const geometry = new THREE.BufferGeometry();
 
     for (let ix = 0; ix < AMOUNTX; ix++) {
       for (let iy = 0; iy < AMOUNTY; iy++) {
         const x = ix * SEPARATION - (AMOUNTX * SEPARATION) / 2;
-        const y = 0; // Will be animated
+        const y = 0; 
         const z = iy * SEPARATION - (AMOUNTY * SEPARATION) / 2;
 
         positions.push(x, y, z);
@@ -79,7 +79,7 @@ export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
     );
     geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
 
-    // Create material
+    
     const material = new THREE.PointsMaterial({
       size: 8,
       vertexColors: true,
@@ -88,13 +88,13 @@ export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
       sizeAttenuation: true,
     });
 
-    // Create points object
+    
     const points = new THREE.Points(geometry, material);
     scene.add(points);
 
     let count = 0;
 
-    // Animation function
+    
     const animate = (): void => {
       const animationId = requestAnimationFrame(animate);
 
@@ -106,7 +106,7 @@ export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
         for (let iy = 0; iy < AMOUNTY; iy++) {
           const index = i * 3;
 
-          // Animate Y position with sine waves
+          
           positions[index + 1] =
             Math.sin((ix + count) * 0.3) * 50 +
             Math.sin((iy + count) * 0.5) * 50;
@@ -117,23 +117,23 @@ export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
 
       positionAttribute.needsUpdate = true;
 
-      // Update point sizes based on wave
+      
       const customMaterial = material as THREE.PointsMaterial & {
         uniforms?: any;
       };
       if (!customMaterial.uniforms) {
-        // For dynamic size changes, we'd need a custom shader
-        // For now, keeping constant size for performance
+        
+        
       }
 
       renderer.render(scene, camera);
       count += 0.1;
 
-      // Store the animation ID for cleanup
+      
       sceneRef.current!.animationId = animationId;
     };
 
-    // Handle window resize
+    
     const handleResize = () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
@@ -142,26 +142,26 @@ export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
 
     window.addEventListener('resize', handleResize);
 
-    // Start animation
+    
     animate();
 
-    // Store references
+    
     sceneRef.current = {
       scene,
       camera,
       renderer,
       particles: [points],
-      animationId: 0, // Will be updated in animate function
+      animationId: 0, 
       count,
     };
 
-    // Cleanup function
+    
     return () => {
       window.removeEventListener('resize', handleResize);
       if (sceneRef.current) {
         cancelAnimationFrame(sceneRef.current.animationId);
 
-        // Clean up Three.js objects
+        
         sceneRef.current.scene.traverse((object) => {
           if (object instanceof THREE.Points) {
             object.geometry.dispose();
@@ -183,7 +183,7 @@ export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
     };
     } catch (error) {
       console.error('DottedSurface: Failed to initialize Three.js scene:', error);
-      // Fallback: just render an empty div if Three.js fails
+      
       return () => {};
     }
   }, [theme]);

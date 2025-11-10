@@ -1,4 +1,4 @@
-// Script to populate sample traffic observations
+
 const { createClient } = require('@supabase/supabase-js')
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
@@ -13,7 +13,7 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 
 async function populateTrafficObservations() {
   try {
-    // Get existing segments
+    
     const { data: segments, error: segmentError } = await supabase
       .from('traffic_segments')
       .select('id, segment_name')
@@ -25,30 +25,30 @@ async function populateTrafficObservations() {
 
     console.log('Found segments:', segments.length)
 
-    // Create traffic observations for each segment
+    
     const observations = []
     const now = new Date()
 
     segments.forEach(segment => {
-      // Create observations for the last few hours
+      
       for (let i = 0; i < 6; i++) {
-        const timestamp = new Date(now.getTime() - (i * 30 * 60 * 1000)) // Every 30 minutes
+        const timestamp = new Date(now.getTime() - (i * 30 * 60 * 1000)) 
         
-        // Simulate realistic traffic patterns
+        
         const hour = timestamp.getHours()
         let baseSpeed = 45
         let baseVolume = 50
         
-        // Peak hours: 7-9 AM, 5-7 PM
+        
         if ((hour >= 7 && hour <= 9) || (hour >= 17 && hour <= 19)) {
-          baseSpeed = 25 + Math.random() * 15 // 25-40 km/h
-          baseVolume = 80 + Math.random() * 20 // 80-100 vehicles
+          baseSpeed = 25 + Math.random() * 15 
+          baseVolume = 80 + Math.random() * 20 
         } else if (hour >= 10 && hour <= 16) {
-          baseSpeed = 35 + Math.random() * 20 // 35-55 km/h
-          baseVolume = 40 + Math.random() * 30 // 40-70 vehicles
+          baseSpeed = 35 + Math.random() * 20 
+          baseVolume = 40 + Math.random() * 30 
         } else {
-          baseSpeed = 50 + Math.random() * 25 // 50-75 km/h
-          baseVolume = 20 + Math.random() * 20 // 20-40 vehicles
+          baseSpeed = 50 + Math.random() * 25 
+          baseVolume = 20 + Math.random() * 20 
         }
 
         const occupancy = Math.min(95, (baseVolume / 100) * 80 + Math.random() * 20)
@@ -71,7 +71,7 @@ async function populateTrafficObservations() {
 
     console.log('Creating traffic observations:', observations.length)
     
-    // Insert in batches to avoid timeout
+    
     const batchSize = 50
     for (let i = 0; i < observations.length; i += batchSize) {
       const batch = observations.slice(i, i + batchSize)

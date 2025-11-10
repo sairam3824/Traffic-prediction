@@ -61,11 +61,11 @@ export default function LiveLocationPredictions({ userLocation }: LiveLocationPr
       const result = await response.json()
       
       if (result.success && result.data) {
-        // Filter and add distance calculation (simplified)
+        
         const alertsWithDistance = result.data.map((alert: any) => ({
           ...alert,
-          distance: Math.random() * 5 + 0.5, // Simulate distance in km
-        })).filter((alert: any) => alert.distance < 3) // Within 3km
+          distance: Math.random() * 5 + 0.5, 
+        })).filter((alert: any) => alert.distance < 3) 
         
         setNearbyAlerts(alertsWithDistance)
       }
@@ -85,7 +85,7 @@ export default function LiveLocationPredictions({ userLocation }: LiveLocationPr
 
     updateData()
 
-    // Update every 30 seconds
+    
     const interval = setInterval(updateData, 30000)
     return () => clearInterval(interval)
   }, [userLocation])
@@ -137,7 +137,7 @@ export default function LiveLocationPredictions({ userLocation }: LiveLocationPr
         <CardDescription>AI predictions for your current location</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        {/* Current Prediction */}
+        {}
         {currentPrediction && (
           <div className="space-y-3">
             <div className="flex items-center justify-between">
@@ -171,7 +171,7 @@ export default function LiveLocationPredictions({ userLocation }: LiveLocationPr
           </div>
         )}
 
-        {/* Nearby Alerts */}
+        {}
         <div className="space-y-3">
           <div className="flex items-center gap-2">
             <AlertTriangle className="w-4 h-4 text-foreground" />
@@ -206,7 +206,7 @@ export default function LiveLocationPredictions({ userLocation }: LiveLocationPr
           )}
         </div>
 
-        {/* Prediction Trend */}
+        {}
         <div className="space-y-2">
           <div className="flex items-center gap-2">
             <TrendingUp className="w-4 h-4 text-foreground" />

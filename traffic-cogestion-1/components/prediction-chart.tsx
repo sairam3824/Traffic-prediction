@@ -15,7 +15,7 @@ export default function PredictionChart({ segmentId }: PredictionChartProps) {
   useEffect(() => {
     const fetchPredictions = async () => {
       try {
-        const limit = timeRange === "24h" ? 24 : 168 // 168 hours = 7 days
+        const limit = timeRange === "24h" ? 24 : 168 
         const response = await fetch(`/api/predictions?segmentId=${segmentId}&modelType=ucs&limit=${limit}`)
         const result = await response.json()
 

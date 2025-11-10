@@ -18,7 +18,7 @@ export default function MainNav() {
 
     getUser()
 
-    // Listen for auth changes
+    
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         setUser(session?.user ?? null)
@@ -31,12 +31,12 @@ export default function MainNav() {
   const isAdmin = user?.email === 'admin@traffic.com'
   const isAuthPage = pathname?.startsWith('/auth/')
 
-  // Don't show navigation links on auth pages
+  
   if (isAuthPage) {
     return null
   }
 
-  // Only show navigation links if user is authenticated
+  
   if (!user) {
     return null
   }
