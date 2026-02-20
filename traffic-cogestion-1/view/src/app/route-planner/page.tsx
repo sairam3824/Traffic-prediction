@@ -82,12 +82,12 @@ export default function RoutePlannerPage() {
   }
 
   return (
-    <main className="min-h-screen bg-background p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
+    <main className="min-h-screen bg-background p-4 sm:p-6">
+      <div className="max-w-7xl mx-auto space-y-4 sm:space-y-6">
         { }
-        <div className="space-y-2">
-          <h1 className="text-4xl font-bold text-foreground">Route Planner</h1>
-          <p className="text-muted-foreground">Plan your route and check real-time congestion predictions</p>
+        <div className="space-y-1 sm:space-y-2">
+          <h1 className="text-2xl sm:text-4xl font-bold text-foreground">Route Planner</h1>
+          <p className="text-sm sm:text-base text-muted-foreground">Plan your route and check real-time congestion predictions</p>
         </div>
 
         { }
@@ -121,8 +121,8 @@ export default function RoutePlannerPage() {
               </>
             ) : (
               <Card className="border-border bg-card/50 backdrop-blur">
-                <CardContent className="p-12 text-center">
-                  <p className="text-muted-foreground">
+                <CardContent className="p-6 sm:p-12 text-center">
+                  <p className="text-sm sm:text-base text-muted-foreground">
                     {loading
                       ? "Planning route..."
                       : "Select origin and destination to view route and congestion forecast"}
