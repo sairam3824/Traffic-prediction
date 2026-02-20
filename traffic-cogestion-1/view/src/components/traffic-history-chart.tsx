@@ -211,7 +211,7 @@ export default function TrafficHistoryChart() {
       <CardContent>
         <div className="h-64 w-full">
           <ResponsiveContainer width="100%" height="100%">
-            <ComposedChart data={trafficData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+            <ComposedChart data={trafficData} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
               <defs>
                 <linearGradient id="historicalGradient" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
@@ -271,7 +271,7 @@ export default function TrafficHistoryChart() {
         </div>
 
         { }
-        <div className="flex justify-center gap-8 mt-4 mb-4 text-sm">
+        <div className="flex justify-center gap-4 sm:gap-8 mt-3 sm:mt-4 mb-3 sm:mb-4 text-xs sm:text-sm">
           <div className="flex items-center gap-2">
             <div className="w-4 h-3 bg-blue-500/30 border-l-2 border-blue-500"></div>
             <span className="text-muted-foreground">Historical Data</span>
@@ -283,7 +283,7 @@ export default function TrafficHistoryChart() {
         </div>
 
         { }
-        <div className="flex justify-center gap-6 mt-4 text-sm">
+        <div className="flex flex-wrap justify-center gap-3 sm:gap-6 mt-3 sm:mt-4 text-xs sm:text-sm">
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 bg-green-500 rounded-full"></div>
             <span className="text-muted-foreground">Low (0-30%)</span>
@@ -303,24 +303,24 @@ export default function TrafficHistoryChart() {
         </div>
 
         { }
-        <div className="grid grid-cols-3 gap-4 mt-4 pt-4 border-t border-border">
+        <div className="grid grid-cols-3 gap-2 sm:gap-4 mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-border">
           <div className="text-center">
-            <p className="text-2xl font-bold text-foreground">
+            <p className="text-lg sm:text-2xl font-bold text-foreground">
               {trafficData.length > 0 ? Math.round(trafficData.reduce((sum, d) => sum + d.congestion, 0) / trafficData.length) : 0}%
             </p>
             <p className="text-xs text-muted-foreground">Avg Congestion</p>
           </div>
           <div className="text-center">
-            <p className="text-2xl font-bold text-foreground">
+            <p className="text-lg sm:text-2xl font-bold text-foreground">
               {trafficData.length > 0 ? Math.round(trafficData.reduce((sum, d) => sum + d.speed, 0) / trafficData.length) : 0}
             </p>
-            <p className="text-xs text-muted-foreground">Avg Speed (km/h)</p>
+            <p className="text-[10px] sm:text-xs text-muted-foreground">Avg Speed (km/h)</p>
           </div>
           <div className="text-center">
-            <p className="text-2xl font-bold text-foreground">
+            <p className="text-lg sm:text-2xl font-bold text-foreground">
               {trafficData.length > 0 ? Math.round(trafficData.reduce((sum, d) => sum + d.volume, 0) / trafficData.length) : 0}
             </p>
-            <p className="text-xs text-muted-foreground">Avg Volume</p>
+            <p className="text-[10px] sm:text-xs text-muted-foreground">Avg Volume</p>
           </div>
         </div>
       </CardContent>

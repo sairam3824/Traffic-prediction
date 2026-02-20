@@ -73,24 +73,24 @@ export default function RouteDetails({
       <CardContent className="space-y-4">
         
         {}
-        <div className="grid grid-cols-2 gap-4">
-          <div className={`p-4 rounded-lg border ${getTrafficBgColor(trafficDensity)}`}>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
-              <Clock className="h-4 w-4" />
+        <div className="grid grid-cols-2 gap-3 sm:gap-4">
+          <div className={`p-3 sm:p-4 rounded-lg border ${getTrafficBgColor(trafficDensity)}`}>
+            <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-muted-foreground mb-1">
+              <Clock className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
               Duration
             </div>
-            <div className="text-2xl font-bold text-foreground">{duration} min</div>
+            <div className="text-xl sm:text-2xl font-bold text-foreground">{duration} min</div>
             <div className={`text-xs ${getTrafficColor(trafficDensity)} font-medium mt-1`}>
               {getTrafficLabel(trafficDensity)}
             </div>
           </div>
 
-          <div className="p-4 rounded-lg border bg-card border-border">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
-              <TrendingUp className="h-4 w-4" />
+          <div className="p-3 sm:p-4 rounded-lg border bg-card border-border">
+            <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-muted-foreground mb-1">
+              <TrendingUp className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
               Distance
             </div>
-            <div className="text-2xl font-bold text-foreground">{distance.toFixed(1)} km</div>
+            <div className="text-xl sm:text-2xl font-bold text-foreground">{distance.toFixed(1)} km</div>
             <div className="text-xs text-muted-foreground mt-1">
               ~{Math.round(distance / duration * 60)} km/h avg
             </div>
@@ -155,24 +155,24 @@ export default function RouteDetails({
             <span className="text-primary">📊</span>
             Route Traffic Analysis
           </h4>
-          <div className="grid grid-cols-3 gap-3">
-            <div className="text-center p-3 rounded-lg bg-green-500/20 border-2 border-green-500/40 hover:bg-green-500/30 transition-colors">
-              <div className="text-xs text-green-400 font-medium">Light</div>
-              <div className="text-2xl font-bold text-green-400">
+          <div className="grid grid-cols-3 gap-2 sm:gap-3">
+            <div className="text-center p-2 sm:p-3 rounded-lg bg-green-500/20 border-2 border-green-500/40 hover:bg-green-500/30 transition-colors">
+              <div className="text-[10px] sm:text-xs text-green-400 font-medium">Light</div>
+              <div className="text-lg sm:text-2xl font-bold text-green-400">
                 {steps.filter(s => s.traffic_density === 'low').length}
               </div>
               <div className="text-xs text-green-300">segments</div>
             </div>
-            <div className="text-center p-3 rounded-lg bg-orange-500/20 border-2 border-orange-500/40 hover:bg-orange-500/30 transition-colors">
-              <div className="text-xs text-orange-400 font-medium">Moderate</div>
-              <div className="text-2xl font-bold text-orange-400">
+            <div className="text-center p-2 sm:p-3 rounded-lg bg-orange-500/20 border-2 border-orange-500/40 hover:bg-orange-500/30 transition-colors">
+              <div className="text-[10px] sm:text-xs text-orange-400 font-medium">Moderate</div>
+              <div className="text-lg sm:text-2xl font-bold text-orange-400">
                 {steps.filter(s => s.traffic_density === 'medium').length}
               </div>
               <div className="text-xs text-orange-300">segments</div>
             </div>
-            <div className="text-center p-3 rounded-lg bg-red-500/20 border-2 border-red-500/40 hover:bg-red-500/30 transition-colors">
-              <div className="text-xs text-red-400 font-medium">Heavy</div>
-              <div className="text-2xl font-bold text-red-400">
+            <div className="text-center p-2 sm:p-3 rounded-lg bg-red-500/20 border-2 border-red-500/40 hover:bg-red-500/30 transition-colors">
+              <div className="text-[10px] sm:text-xs text-red-400 font-medium">Heavy</div>
+              <div className="text-lg sm:text-2xl font-bold text-red-400">
                 {steps.filter(s => s.traffic_density === 'high').length}
               </div>
               <div className="text-xs text-red-300">segments</div>

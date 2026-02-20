@@ -176,7 +176,7 @@ export default function CongestionDistribution() {
       <CardContent>
         <div className="space-y-4">
           { }
-          <div className="h-64 w-full">
+          <div className="h-48 sm:h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
@@ -185,8 +185,8 @@ export default function CongestionDistribution() {
                   cy="50%"
                   labelLine={false}
                   label={CustomLabel}
-                  outerRadius={90}
-                  innerRadius={55}
+                  outerRadius={typeof window !== 'undefined' && window.innerWidth < 640 ? 70 : 90}
+                  innerRadius={typeof window !== 'undefined' && window.innerWidth < 640 ? 40 : 55}
                   fill="#8884d8"
                   dataKey="value"
                   paddingAngle={2}

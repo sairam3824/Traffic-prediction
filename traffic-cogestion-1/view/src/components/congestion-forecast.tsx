@@ -129,14 +129,14 @@ export default function CongestionForecast({ routeId }: CongestionForecastProps)
       </CardHeader>
       <CardContent className="space-y-4">
         { }
-        <div className="flex items-center gap-2">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2">
           <DateTimePicker value={selectedDate} min={now} max={maxDate} onChange={handleDateChange} />
           <span className="text-xs text-muted-foreground">(Max: 1 week ahead)</span>
         </div>
 
         { }
         {forecasts.length > 0 ? (
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={250}>
             <LineChart data={forecasts}>
               <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
               <XAxis dataKey="time" stroke="#9ca3af" />

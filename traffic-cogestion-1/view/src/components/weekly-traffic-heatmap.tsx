@@ -198,14 +198,14 @@ export default function WeeklyTrafficHeatmap() {
             <div className="inline-block min-w-full">
               { }
               <div className="flex mb-2">
-                <div className="w-20 flex-shrink-0"></div>
+                <div className="w-12 sm:w-20 flex-shrink-0"></div>
                 <div className="flex gap-0.5 flex-1">
                   {hours.map((hour) => (
                     <div
                       key={hour}
-                      className="flex-1 text-center text-[10px] text-muted-foreground min-w-[24px]"
+                      className="flex-1 text-center text-[8px] sm:text-[10px] text-muted-foreground min-w-[12px] sm:min-w-[24px]"
                     >
-                      {hour % 3 === 0 ? `${hour}h` : ''}
+                      {hour % 6 === 0 ? `${hour}h` : ''}
                     </div>
                   ))}
                 </div>
@@ -219,17 +219,17 @@ export default function WeeklyTrafficHeatmap() {
                 return (
                   <div key={dayName} className="flex mb-0.5 items-center">
                     { }
-                    <div className={`w-20 flex-shrink-0 text-sm font-medium ${isToday ? 'text-primary' : 'text-foreground'}`}>
+                    <div className={`w-12 sm:w-20 flex-shrink-0 text-xs sm:text-sm font-medium ${isToday ? 'text-primary' : 'text-foreground'}`}>
                       {dayName}
                       {isToday && <span className="text-xs text-primary ml-1">•</span>}
                     </div>
 
                     { }
-                    <div className="flex gap-0.5 flex-1">
+                    <div className="flex gap-px sm:gap-0.5 flex-1">
                       {dayCells.map((cell) => (
                         <div
                           key={`${cell.day}-${cell.hour}`}
-                          className={`flex-1 h-9 rounded-sm cursor-pointer transition-all hover:scale-105 hover:z-10 hover:shadow-lg relative min-w-[24px] ${getCellColor(cell.level)}`}
+                          className={`flex-1 h-6 sm:h-9 rounded-sm cursor-pointer transition-all hover:scale-105 hover:z-10 hover:shadow-lg relative min-w-[6px] sm:min-w-[24px] ${getCellColor(cell.level)}`}
                           style={{ opacity: getCellOpacity(cell.congestion) }}
                           onClick={() => setSelectedCell(cell)}
                           title={`${cell.dayName} ${cell.hour}:00 - ${cell.congestion}% congestion`}
@@ -285,9 +285,9 @@ export default function WeeklyTrafficHeatmap() {
           )}
 
           { }
-          <div className="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-border/50">
-            <div className="flex items-center gap-3 text-xs">
-              <span className="text-muted-foreground font-medium">Traffic Level:</span>
+          <div className="flex flex-wrap items-center justify-between gap-2 sm:gap-4 pt-3 border-t border-border/50">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-[10px] sm:text-xs">
+              <span className="text-muted-foreground font-medium hidden sm:inline">Traffic Level:</span>
               <div className="flex items-center gap-1.5">
                 <div className="w-3 h-3 bg-green-500 rounded-sm"></div>
                 <span className="text-muted-foreground">Low</span>
@@ -312,24 +312,24 @@ export default function WeeklyTrafficHeatmap() {
           </div>
 
           { }
-          <div className="grid grid-cols-3 gap-4 pt-3 border-t border-border/50">
+          <div className="grid grid-cols-3 gap-2 sm:gap-4 pt-3 border-t border-border/50">
             <div className="text-center">
-              <p className="text-3xl font-bold text-foreground">
+              <p className="text-xl sm:text-3xl font-bold text-foreground">
                 {Math.round(heatmapData.reduce((sum, cell) => sum + cell.congestion, 0) / heatmapData.length)}%
               </p>
-              <p className="text-[11px] text-muted-foreground mt-0.5">Avg Weekly Congestion</p>
+              <p className="text-[10px] sm:text-[11px] text-muted-foreground mt-0.5">Avg Congestion</p>
             </div>
             <div className="text-center">
-              <p className="text-3xl font-bold text-red-400">
+              <p className="text-xl sm:text-3xl font-bold text-red-400">
                 {heatmapData.filter(cell => cell.level === 'severe' || cell.level === 'heavy').length}
               </p>
-              <p className="text-[11px] text-muted-foreground mt-0.5">Peak Hours This Week</p>
+              <p className="text-[10px] sm:text-[11px] text-muted-foreground mt-0.5">Peak Hours</p>
             </div>
             <div className="text-center">
-              <p className="text-3xl font-bold text-green-400">
+              <p className="text-xl sm:text-3xl font-bold text-green-400">
                 {heatmapData.filter(cell => cell.level === 'low').length}
               </p>
-              <p className="text-[11px] text-muted-foreground mt-0.5">Low Traffic Hours</p>
+              <p className="text-[10px] sm:text-[11px] text-muted-foreground mt-0.5">Low Traffic</p>
             </div>
           </div>
         </div>
