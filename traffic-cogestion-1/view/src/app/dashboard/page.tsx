@@ -44,13 +44,13 @@ export default function TrafficPredictionPage() {
 
 
   return (
-    <main className="min-h-screen bg-background p-6">
+    <main className="min-h-screen bg-background p-4 sm:p-6">
       <BackendStatus />
       <div className="max-w-7xl mx-auto space-y-6">
         { }
         <div className="space-y-2">
-          <h1 className="text-4xl font-bold text-foreground">Traffic Congestion Prediction</h1>
-          <p className="text-muted-foreground">Real-time traffic analysis powered by AI-driven predictions.</p>
+          <h1 className="text-2xl sm:text-4xl font-bold text-foreground">Traffic Congestion Prediction</h1>
+          <p className="text-sm sm:text-base text-muted-foreground">Real-time traffic analysis powered by AI-driven predictions.</p>
           <div className="pt-4">
             <a href="/route-planner" className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
               Plan a Route ➜
@@ -68,23 +68,21 @@ export default function TrafficPredictionPage() {
         )}
 
         {userLocation && (
-          <div className="border border-green-500/50 bg-gradient-to-r from-green-500/10 to-emerald-500/10 backdrop-blur rounded-lg px-4 py-3">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="relative">
-                  <span className="text-2xl">📍</span>
+          <div className="border border-green-500/50 bg-gradient-to-r from-green-500/10 to-emerald-500/10 backdrop-blur rounded-lg px-3 sm:px-4 py-2.5 sm:py-3">
+            <div className="flex items-center justify-between gap-2 flex-wrap">
+              <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                <div className="relative shrink-0">
+                  <span className="text-xl sm:text-2xl">📍</span>
                   <div className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <span className="text-green-400 font-medium text-sm">Live location:</span>
-                  <div className="flex items-center gap-2">
-                    <span className="text-green-300 font-mono text-sm">
-                      {userLocation.lat.toFixed(4)}, {userLocation.lng.toFixed(4)}
-                    </span>
-                  </div>
+                <div className="flex items-center gap-1.5 sm:gap-3 flex-wrap min-w-0">
+                  <span className="text-green-400 font-medium text-xs sm:text-sm">Live:</span>
+                  <span className="text-green-300 font-mono text-xs sm:text-sm truncate">
+                    {userLocation.lat.toFixed(4)}, {userLocation.lng.toFixed(4)}
+                  </span>
                 </div>
               </div>
-              <div className="flex items-center gap-2 bg-green-500/20 rounded-full px-3 py-1 border border-green-500/30">
+              <div className="flex items-center gap-1.5 bg-green-500/20 rounded-full px-2.5 py-1 border border-green-500/30 shrink-0">
                 <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
                 <span className="text-green-400 text-xs font-medium">Tracking</span>
               </div>
