@@ -8,15 +8,15 @@ import { ProjectInfo } from "@/components/project-info"
 export default function LandingPage() {
     return (
         <div className="flex flex-col min-h-[calc(100vh-4rem)]">
-            <main className="flex-1 flex flex-col items-center pt-20 pb-12 px-6 text-center bg-slate-950 text-white relative min-h-screen">
+            <main className="flex-1 flex flex-col items-center pt-10 sm:pt-20 pb-8 sm:pb-12 px-4 sm:px-6 text-center bg-slate-950 text-white relative min-h-screen">
 
                 {/* Abstract Background */}
                 <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                    <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
-                    <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+                    <div className="absolute top-1/4 left-1/4 w-48 sm:w-96 h-48 sm:h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
+                    <div className="absolute bottom-1/4 right-1/4 w-48 sm:w-96 h-48 sm:h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
                 </div>
 
-                <div className="w-full max-w-7xl relative z-10 flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-24 mb-20">
+                <div className="w-full max-w-7xl relative z-10 flex flex-col lg:flex-row items-center justify-center gap-8 sm:gap-12 lg:gap-24 mb-12 sm:mb-20">
                     {/* Left Side - Project Info Card */}
                     <div className="w-full lg:w-auto flex justify-center lg:justify-end">
                         <ProjectInfo />
@@ -29,10 +29,10 @@ export default function LandingPage() {
                                 <span className="flex h-2 w-2 rounded-full bg-blue-400 mr-2 self-center animate-pulse"></span>
                                 AI-Powered Traffic Analysis
                             </div>
-                            <h1 className="text-5xl md:text-7xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 leading-tight">
+                            <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 leading-tight">
                                 Smart Traffic<br />Prediction
                             </h1>
-                            <p className="text-xl text-slate-400 leading-relaxed">
+                            <p className="text-base sm:text-xl text-slate-400 leading-relaxed">
                                 AI-powered real-time congestion analysis and route optimization for smarter cities.
                             </p>
                         </div>
@@ -53,7 +53,7 @@ export default function LandingPage() {
                 </div>
 
                 {/* Feature Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-6xl text-left relative z-10 px-4 mb-20">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8 w-full max-w-6xl text-left relative z-10 px-0 sm:px-4 mb-12 sm:mb-20">
                     <div className="p-6 rounded-2xl bg-slate-900/50 border border-slate-800 backdrop-blur-sm hover:bg-slate-900/80 transition-colors">
                         <div className="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center mb-4 text-blue-400">
                             <Activity className="w-6 h-6" />
@@ -83,8 +83,8 @@ export default function LandingPage() {
                 <div className="absolute bottom-0 left-0 right-0 h-[500px] bg-gradient-to-t from-blue-950/20 via-slate-950/50 to-transparent pointer-events-none"></div>
 
                 {/* Footer Section */}
-                <footer className="w-full max-w-7xl mx-auto px-6 relative z-10 border-t border-slate-800/50 pt-8 mt-auto">
-                    <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-slate-500 text-sm">
+                <footer className="w-full max-w-7xl mx-auto px-4 sm:px-6 relative z-10 border-t border-slate-800/50 pt-6 sm:pt-8 mt-auto">
+                    <div className="flex flex-col md:flex-row items-center justify-between gap-3 sm:gap-4 text-slate-500 text-xs sm:text-sm">
                         <p>© 2024 Traffic Prediction. All rights reserved.</p>
                         <div className="flex items-center gap-6">
                             <Link href="#" className="hover:text-blue-400 transition-colors">Privacy Policy</Link>
